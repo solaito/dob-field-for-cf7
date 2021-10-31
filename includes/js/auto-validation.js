@@ -11,7 +11,7 @@ if (!Element.prototype.closest) {
 		var element = this;
 		do {
 			if (element.matches(value)) return element;
-			element = element.parentelementement || element.parentNode;
+			element = element.parentElement || element.parentNode;
 		} while (element !== null && element.nodeType === 1);
 		return null;
 	};
