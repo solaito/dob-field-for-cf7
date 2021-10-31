@@ -1,6 +1,22 @@
 import "es6-promise/auto";
 import "fetch-ie8";
 
+// closest for ie
+// https://yoo-s.com/topic/detail/699
+if (!Element.prototype.matches) {
+	Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+}
+if (!Element.prototype.closest) {
+	Element.prototype.closest = function (value) {
+		var element = this;
+		do {
+			if (element.matches(value)) return element;
+			element = element.parentelementement || element.parentNode;
+		} while (element !== null && element.nodeType === 1);
+		return null;
+	};
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 	document.querySelectorAll(
 		".wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file):not(.wpcf7-quiz)"
