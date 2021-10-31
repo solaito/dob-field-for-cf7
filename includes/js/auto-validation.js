@@ -1,3 +1,6 @@
+import "es6-promise/auto";
+import "fetch-ie8";
+
 document.addEventListener("DOMContentLoaded", () => {
 	document.querySelectorAll(
 		".wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file, .wpcf7-quiz)"
