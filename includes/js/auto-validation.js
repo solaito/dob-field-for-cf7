@@ -52,7 +52,7 @@ const validate = (input) => {
 			li.insertAdjacentText("beforeend", error.message);
 		}
 
-		form.wpcf7.parent
+		form.wpcf7.parentNode
 			.querySelector(".screen-reader-response ul")
 			.appendChild(li);
 	};
@@ -128,10 +128,10 @@ const clearResponse = (input) => {
 
 const clearScreenReaderResponse = (input) => {
 	let form = input.closest("form");
-	form.wpcf7.parent
+	form.wpcf7.parentNode
 		.querySelectorAll("#" + form.wpcf7.parent.id + "-ve-" + input.name)
 		.forEach((li) => {
-			li.remove();
+			li.parentNode.removeChild(li);
 		});
 };
 
