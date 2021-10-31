@@ -39,6 +39,7 @@ const validate = (input) => {
 	let form = input.closest("form");
 
 	let formData = new FormData(form);
+	formData = deleteFile(formData);
 	formData.append("watts-validation-target", normalizeInputName(input.name));
 
 	const setScreenReaderValidationError = (error) => {
@@ -149,3 +150,14 @@ const normalizeInputName = (name) => {
 
 const validateionEndpoint = (id) =>
 	window.location.origin + "/wp-json/watts/v1/" + id + "/validation";
+
+const deleteFile = (formData) => {
+	for (item of formData) {
+		if(File.prototype.isPrototypeOf(item[1]))
+		{
+			formData.delete(item[0]);
+		}
+	}
+
+	return formData;
+}
