@@ -2,17 +2,20 @@ import "es6-promise/auto";
 import "fetch-ie8";
 
 // closest for ie
-// https://yoo-s.com/topic/detail/699
+// https://developer.mozilla.org/ja/docs/Web/API/Element/closest#Polyfill
 if (!Element.prototype.matches) {
-	Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+	Element.prototype.matches = Element.prototype.msMatchesSelector ||
+		Element.prototype.webkitMatchesSelector;
 }
+
 if (!Element.prototype.closest) {
-	Element.prototype.closest = function (value) {
-		var element = this;
+	Element.prototype.closest = function (s) {
+		var el = this;
+
 		do {
-			if (element.matches(value)) return element;
-			element = element.parentElement || element.parentNode;
-		} while (element !== null && element.nodeType === 1);
+			if (Element.prototype.matches.call(el, s)) return el;
+			el = el.parentElement || el.parentNode;
+		} while (el !== null && el.nodeType === 1);
 		return null;
 	};
 }
