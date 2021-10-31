@@ -3,7 +3,7 @@ import "fetch-ie8";
 
 document.addEventListener("DOMContentLoaded", () => {
 	document.querySelectorAll(
-		".wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file, .wpcf7-quiz)"
+		".wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file):not(.wpcf7-quiz)"
 	).forEach((input) => {
 		input.addEventListener("blur", function fn() {
 			validate(input);
