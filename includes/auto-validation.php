@@ -2,8 +2,8 @@
 
 class Watts_Auto_Validation
 {
-	private const target_name = 'watts-validation-target';
-	private const excluded_basetypes = array('file', 'quiz');
+	const target_name = 'watts-validation-target';
+	const excluded_basetypes = array('file', 'quiz');
 
 	public function main(WP_REST_Request $request)
 	{
