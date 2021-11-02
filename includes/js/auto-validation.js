@@ -1,25 +1,3 @@
-import "es6-promise/auto";
-import "fetch-ie8";
-
-// closest for ie
-// https://developer.mozilla.org/ja/docs/Web/API/Element/closest#Polyfill
-if (!Element.prototype.matches) {
-	Element.prototype.matches = Element.prototype.msMatchesSelector ||
-		Element.prototype.webkitMatchesSelector;
-}
-
-if (!Element.prototype.closest) {
-	Element.prototype.closest = function (s) {
-		var el = this;
-
-		do {
-			if (Element.prototype.matches.call(el, s)) return el;
-			el = el.parentElement || el.parentNode;
-		} while (el !== null && el.nodeType === 1);
-		return null;
-	};
-}
-
 document.addEventListener("DOMContentLoaded", () => {
 	document.querySelectorAll(
 		".wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file):not(.wpcf7-quiz)"
@@ -56,7 +34,7 @@ const validate = (input) => {
 			li.insertAdjacentText("beforeend", error.message);
 		}
 
-		form.wpcf7.parentNode
+		form.wpcf7.parent
 			.querySelector(".screen-reader-response ul")
 			.appendChild(li);
 	};
@@ -132,10 +110,10 @@ const clearResponse = (input) => {
 
 const clearScreenReaderResponse = (input) => {
 	let form = input.closest("form");
-	form.wpcf7.parentNode
+	form.wpcf7.parent
 		.querySelectorAll("#" + form.wpcf7.parent.id + "-ve-" + input.name)
 		.forEach((li) => {
-			li.parentNode.removeChild(li);
+			li.remove();
 		});
 };
 
