@@ -19,7 +19,10 @@ add_action('wp_enqueue_scripts', 'watts_enqueue_scripts');
 function watts_enqueue_scripts()
 {
 	wp_enqueue_script('watts-zenkaku-to-hankaku', plugin_dir_url(__FILE__) . 'includes/js/zenkaku-to-hankaku.js', array('contact-form-7'));
-	wp_enqueue_script('watts-auto-validation', plugin_dir_url(__FILE__) . 'includes/js/auto-validation.js', array('contact-form-7'));
+	if(!(strstr($_SERVER['HTTP_USER_AGENT'], 'Trident') || strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')))
+	{
+		wp_enqueue_script('watts-auto-validation', plugin_dir_url(__FILE__) . 'includes/js/auto-validation.js', array('contact-form-7'));
+	}
 }
 
 add_action('rest_api_init', function () {
