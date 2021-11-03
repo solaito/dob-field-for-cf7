@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     Watts
  * Plugin URI:      PLUGIN SITE HERE
- * Description:     EFO for Contact Fomr 7.
+ * Description:     EFO for Contact Form 7.
  * Author:          s.matsuura
  * Author URI:      https://tonica.llc
  * Text Domain:     watts
