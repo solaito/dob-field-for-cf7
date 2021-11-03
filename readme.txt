@@ -19,7 +19,7 @@ This plugin provides the following featreus.
   * Email address
   * Telephone number
 *  Adding input fields.
-  * Date of birth
+  * Date of birth(Only Japanese available)
 
 == Installation ==
 

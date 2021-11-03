@@ -12,8 +12,12 @@
  * @package         Watts
  */
 
-include "modules/dob.php";
 require_once 'includes/controller.php';
+
+if (get_locale() === 'ja')
+{
+	require_once "modules/dob.php";
+}
 
 add_action('wp_enqueue_scripts', 'watts_enqueue_scripts');
 function watts_enqueue_scripts()
