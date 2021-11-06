@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name:     Watts
- * Plugin URI:      PLUGIN SITE HERE
+ * Plugin URI:      https://wp-watts.com/
  * Description:     EFO for Contact Form 7.
  * Author:          s.matsuura
- * Author URI:      https://tonica.llc
+ * Author URI:      https://github.com/solaito/
  * Text Domain:     watts
  * Domain Path:     /languages
- * Version:         0.1.0
+ * Version:         1.0.0
  *
  * @package         Watts
  */
