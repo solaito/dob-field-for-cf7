@@ -14,7 +14,7 @@ EFO(Entry Form Optimization) for your Contact Form 7.
 == Description ==
 
 This plugin provides the following featreus.
-*  Real-time validation using ajax
+*  Real-time validation using ajax(Excluding IE).
 *  Automatically converts Fullwidth Forms to Halfwidth Forms.
   * Email address
   * Telephone number
