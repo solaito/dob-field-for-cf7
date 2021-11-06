@@ -130,7 +130,7 @@ const validateionEndpoint = (id) =>
 	window.location.origin + "/wp-json/watts/v1/" + id + "/validation";
 
 const deleteFile = (formData) => {
-	for (item of formData) {
+	for (const item of formData) {
 		if(File.prototype.isPrototypeOf(item[1]))
 		{
 			formData.delete(item[0]);
