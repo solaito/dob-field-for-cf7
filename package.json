@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "setup": "yarn",
     "build": "wp-scripts build includes/js",
     "lint": "wp-scripts lint-js includes/js"
   },
