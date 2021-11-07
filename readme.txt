@@ -1,5 +1,5 @@
 === Watts ===
-Contributors: (this should be a list of wordpress.org userid's)
+Contributors: solaito
 Donate link: https://wp-watts.com/
 Tags: from, contact form, efo, ajax
 Requires at least: 5.7
