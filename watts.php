@@ -18,6 +18,7 @@ if (get_locale() === 'ja')
 {
 	require_once "modules/dob.php";
 }
+include "modules/confirm-email.php";
 
 add_action('wp_enqueue_scripts', 'watts_enqueue_scripts');
 function watts_enqueue_scripts()
