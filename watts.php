@@ -28,6 +28,13 @@ function watts_enqueue_scripts()
 	if(!(strstr($_SERVER['HTTP_USER_AGENT'], 'Trident') || strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')))
 	{
 		wp_enqueue_script('watts-auto-validation', plugin_dir_url(__FILE__) . 'includes/js/auto-validation.js', array('contact-form-7'), $version);
+		$watts= array(
+			'api' => array(
+					'root' => esc_url_raw( get_rest_url() ),
+					'namespace' => 'watts/v1',
+			),
+		);
+		wp_localize_script( 'watts-auto-validation', 'watts', $watts );
 	}
 }
 

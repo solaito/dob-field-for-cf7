@@ -127,7 +127,7 @@ const normalizeInputName = (name) => {
 };
 
 const validateionEndpoint = (id) =>
-	window.location.origin + "/wp-json/watts/v1/" + id + "/validation";
+	watts.api.root + watts.api.namespace + "/" + id + "/validation";
 
 const deleteFile = (formData) => {
 	for (const item of formData) {
