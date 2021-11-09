@@ -144,10 +144,12 @@ function watts_dob_validation_filter($result, $tag)
 {
 	$name = $tag->name;
 
+	$post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
 	$values = [
-		'year' => isset($_POST[$name]['year']) ? trim($_POST[$name]['year']) : '',
-		'month' => isset($_POST[$name]['month']) ? trim($_POST[$name]['month']) : '',
-		'day' => isset($_POST[$name]['day']) ? trim($_POST[$name]['day']) : '',
+		'year' => isset($post[$name]['year']) ? trim($post[$name]['year']) : '',
+		'month' => isset($post[$name]['month']) ? trim($post[$name]['month']) : '',
+		'day' => isset($post[$name]['day']) ? trim($post[$name]['day']) : '',
 	];
 
 	$blank_flags = [
