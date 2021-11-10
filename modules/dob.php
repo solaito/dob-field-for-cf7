@@ -77,6 +77,7 @@ function watts_dob_form_tag_handler($tag)
 function watts_dob_form_part($tag, $atts, $name_key, $default_value, $values, $blank_item)
 {
 	$atts['name'] = sprintf('%1$s[%2$s]', $tag->name, $name_key);
+	$atts['id'] .= '-' . $name_key;
 
 	$labels = $values;
 
