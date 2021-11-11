@@ -77,6 +77,7 @@ function watts_dob_form_tag_handler($tag)
 function watts_dob_form_part($tag, $atts, $name_key, $default_value, $values, $blank_item)
 {
 	$atts['name'] = sprintf('%1$s[%2$s]', $tag->name, $name_key);
+	$atts['id'] .= '-' . $name_key;
 
 	$labels = $values;
 
@@ -145,9 +146,9 @@ function watts_dob_validation_filter($result, $tag)
 	$name = $tag->name;
 
 	$values = [
-		'year' => isset($_POST[$name]['year']) ? trim($_POST[$name]['year']) : '',
-		'month' => isset($_POST[$name]['month']) ? trim($_POST[$name]['month']) : '',
-		'day' => isset($_POST[$name]['day']) ? trim($_POST[$name]['day']) : '',
+		'year' => isset($_POST[$name]['year']) ? trim(sanitize_text_field($_POST[$name]['year'])) : '',
+		'month' => isset($_POST[$name]['month']) ? trim(sanitize_text_field($_POST[$name]['month'])) : '',
+		'day' => isset($_POST[$name]['day']) ? trim(sanitize_text_field($_POST[$name]['day'])) : '',
 	];
 
 	$blank_flags = [
