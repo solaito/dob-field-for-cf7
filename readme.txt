@@ -13,19 +13,27 @@ EFO(Entry Form Optimization) for your Contact Form 7.
 
 == Description ==
 
+EFO(Entry Form Optimization) for your Contact Form 7.
+
 This plugin provides the following featreus.
-*  Real-time validation using ajax(Excluding IE).
-*  Automatically converts Fullwidth Forms to Halfwidth Forms.
-  * Email address
-  * Telephone number
-*  Adding input fields.
-  * Date of birth(Only Japanese available)
+**Real-time validation using ajax(Excluding IE).**
+
+**Automatically converts Fullwidth Forms to Halfwidth Forms.**
+
+* Email address
+* Telephone number
+
+** Adding input fields.**
+
+* Date of birth(Only Japanese available)
 
 == Installation ==
 
+Please install contact form 7 in advance.
+
 1. From the WP admin panel, click “Plugins” -> “Add new”.
-1. In the browser input box, type “MyCustomStyleCssManager”.
-1. Select the “My Custom Style Css Manager” plugin and click “Install”.
+1. In the browser input box, type “Watts”.
+1. Select the “Watts” plugin and click “Install”.
 1. Activate the plugin.
 
 OR…
