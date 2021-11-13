@@ -1,7 +1,7 @@
 === Watts ===
 Contributors: solaito
 Donate link: https://wp-watts.com/
-Tags: from, contact form, efo, ajax
+Tags: form, contact form, efo, ajax
 Requires at least: 5.7
 Tested up to: 5.8
 Requires PHP: 5.6
