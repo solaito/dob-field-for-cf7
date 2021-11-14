@@ -5,15 +5,15 @@ Tags: form, contact form, efo, ajax
 Requires at least: 5.7
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-EFO(Entry Form Optimization) for your Contact Form 7.
+The Watts will performs EFO(Entry Form Optimization) for your Contact Form 7.
 
 == Description ==
 
-EFO(Entry Form Optimization) for your Contact Form 7.
+The Watts will performs EFO(Entry Form Optimization) for your Contact Form 7.
 
 This plugin provides the following featreus.
 
@@ -26,6 +26,7 @@ Automatically converts Fullwidth Forms to Halfwidth Forms.
 
 Adding input fields.
 
+* Confirm e-mail address
 * Date of birth (Only Japanese available)
 
 == Installation ==
@@ -54,6 +55,11 @@ I'm waiting for your questions.
 No image.
 
 == Changelog ==
+
+= 1.1.0 =
+* Add confirm e-mail address input field.
+* Translation support.
+* Fix readmme.txt.
 
 = 1.0.0 =
 * First Release.
