@@ -178,7 +178,7 @@ function watts_dob_validation_filter($result, $tag)
 	return $result;
 }
 
-add_action('wpcf7_admin_init', 'watts_add_tag_generator_dob', 19, 0);
+add_action('wpcf7_admin_init', 'watts_add_tag_generator_dob', 20, 0);
 
 function watts_add_tag_generator_dob()
 {

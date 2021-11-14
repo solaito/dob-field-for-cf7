@@ -105,7 +105,7 @@ function watts_confirm_email_validation_filter($result, $tag)
 	return $result;
 }
 
-add_action('wpcf7_admin_init', 'watts_add_tag_generator_confirm_email', 19, 0);
+add_action('wpcf7_admin_init', 'watts_add_tag_generator_confirm_email', 16, 0);
 
 function watts_add_tag_generator_confirm_email()
 {
