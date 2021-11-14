@@ -161,29 +161,29 @@ function watts_dob_validation_filter($result, $tag)
 		// すべて入力されていない
 		if ($tag->is_required()) {
 			// 必須項目
-			$result->invalidate($name, '必須項目に入力してください。');
+			$result->invalidate( $tag, wpcf7_get_message( 'invalid_required' ) );
 		}
 		// 必須項目ではなく、全て入力されていない場合は許容
 	} else if (in_array(true, $blank_flags, true) !== false) {
 		// 中途半端な入力
-		$result->invalidate($name, '不正な日付です。');
+		$result->invalidate( $tag, wpcf7_get_message( 'invalid_date' ) );
 	} else if (in_array(false, array_map('is_numeric', array_values($values)), true)) {
 		// 数値かどうか
-		$result->invalidate($name, '不正な入力値です。');
+		$result->invalidate( $tag, wpcf7_get_message( 'invalid_date' ) );
 	} else if (!checkdate($values['month'], $values['day'], $values['year'])) {
 		// 数値が入力されていた場合のチェック
-		$result->invalidate($name, '存在しない日付です。');
+		$result->invalidate( $tag, __('The date specified is not a valid date value.', 'watts'));
 	}
 
 	return $result;
 }
 
-add_action('wpcf7_admin_init', 'watts_add_tag_generator_dob', 19, 0);
+add_action('wpcf7_admin_init', 'watts_add_tag_generator_dob', 20, 0);
 
 function watts_add_tag_generator_dob()
 {
 	$tag_generator = WPCF7_TagGenerator::get_instance();
-	$tag_generator->add('dob', __('生年月日', 'contact-form-7'),
+	$tag_generator->add('dob', __('DOB', 'watts'),
 		'watts_tag_generator_dob');
 }
 
@@ -192,7 +192,7 @@ function watts_tag_generator_dob($contact_form, $args = '')
 	$args = wp_parse_args($args, array());
 	$type = 'dob';
 
-	$description = '生年月日入力項目のフォームタグを生成します。';
+	$description = __( "Generate a form-tag for a date of birth input field.", 'watts' );
 
 	?>
 <div class="control-box">
@@ -202,42 +202,42 @@ function watts_tag_generator_dob($contact_form, $args = '')
 <table class="form-table">
 <tbody>
 	<tr>
-	<th scope="row"><?php echo esc_html(__('Field type', 'contact-form-7')); ?></th>
+	<th scope="row"><?php echo esc_html(__('Field type', 'watts')); ?></th>
 	<td>
 		<fieldset>
-		<legend class="screen-reader-text"><?php echo esc_html(__('Field type', 'contact-form-7')); ?></legend>
-		<label><input type="checkbox" name="required" /> <?php echo esc_html(__('Required field', 'contact-form-7')); ?></label>
+		<legend class="screen-reader-text"><?php echo esc_html(__('Field type', 'watts')); ?></legend>
+		<label><input type="checkbox" name="required" /> <?php echo esc_html(__('Required field', 'watts')); ?></label>
 		</fieldset>
 	</td>
 	</tr>
 
 	<tr>
-	<th scope="row"><label for="<?php echo esc_attr($args['content'] . '-name'); ?>"><?php echo esc_html(__('Name', 'contact-form-7')); ?></label></th>
+	<th scope="row"><label for="<?php echo esc_attr($args['content'] . '-name'); ?>"><?php echo esc_html(__('Name', 'watts')); ?></label></th>
 	<td><input type="text" name="name" class="tg-name oneline" id="<?php echo esc_attr($args['content'] . '-name'); ?>" /></td>
 	</tr>
 
 	<tr>
-	<th scope="row"><label for="<?php echo esc_attr($args['content'] . '-values'); ?>"><?php echo esc_html(__('Default value', 'contact-form-7')); ?></label></th>
+	<th scope="row"><label for="<?php echo esc_attr($args['content'] . '-values'); ?>"><?php echo esc_html(__('Default value', 'watts')); ?></label></th>
 	<td><input type="text" name="values" class="oneline" id="<?php echo esc_attr($args['content'] . '-values'); ?>" /><br />
 	</tr>
 
 	<tr>
-	<th scope="row"><?php echo esc_html(__('Options', 'contact-form-7')); ?></th>
+	<th scope="row"><?php echo esc_html(__('Options', 'watts')); ?></th>
 	<td>
 		<fieldset>
-		<legend class="screen-reader-text"><?php echo esc_html(__('Options', 'contact-form-7')); ?></legend>
-		<label><input type="checkbox" name="include_blank" class="option" /> <?php echo esc_html(__('Insert a blank item as the first option', 'contact-form-7')); ?></label>
+		<legend class="screen-reader-text"><?php echo esc_html(__('Options', 'watts')); ?></legend>
+		<label><input type="checkbox" name="include_blank" class="option" /> <?php echo esc_html(__('Insert a blank item as the first option', 'watts')); ?></label>
 		</fieldset>
 	</td>
 	</tr>
 
 	<tr>
-	<th scope="row"><label for="<?php echo esc_attr($args['content'] . '-id'); ?>"><?php echo esc_html(__('Id attribute', 'contact-form-7')); ?></label></th>
+	<th scope="row"><label for="<?php echo esc_attr($args['content'] . '-id'); ?>"><?php echo esc_html(__('Id attribute', 'watts')); ?></label></th>
 	<td><input type="text" name="id" class="idvalue oneline option" id="<?php echo esc_attr($args['content'] . '-id'); ?>" /></td>
 	</tr>
 
 	<tr>
-	<th scope="row"><label for="<?php echo esc_attr($args['content'] . '-class'); ?>"><?php echo esc_html(__('Class attribute', 'contact-form-7')); ?></label></th>
+	<th scope="row"><label for="<?php echo esc_attr($args['content'] . '-class'); ?>"><?php echo esc_html(__('Class attribute', 'watts')); ?></label></th>
 	<td><input type="text" name="class" class="classvalue oneline option" id="<?php echo esc_attr($args['content'] . '-class'); ?>" /></td>
 	</tr>
 </tbody>
@@ -249,12 +249,12 @@ function watts_tag_generator_dob($contact_form, $args = '')
 	<input type="text" name="<?php echo $type; ?>" class="tag code" readonly="readonly" onfocus="this.select()" />
 
 	<div class="submitbox">
-	<input type="button" class="button button-primary insert-tag" value="<?php echo esc_attr(__('Insert Tag', 'contact-form-7')); ?>" />
+	<input type="button" class="button button-primary insert-tag" value="<?php echo esc_attr(__('Insert Tag', 'watts')); ?>" />
 	</div>
 
 	<br class="clear" />
 
-	<p class="description mail-tag"><label for="<?php echo esc_attr($args['content'] . '-mailtag'); ?>"><?php echo sprintf(esc_html(__("To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.", 'contact-form-7')), '<strong><span class="mail-tag"></span></strong>'); ?><input type="text" class="mail-tag code hidden" readonly="readonly" id="<?php echo esc_attr($args['content'] . '-mailtag'); ?>" /></label></p>
+	<p class="description mail-tag"><label for="<?php echo esc_attr($args['content'] . '-mailtag'); ?>"><?php echo sprintf(esc_html(__("To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.", 'watts')), '<strong><span class="mail-tag"></span></strong>'); ?><input type="text" class="mail-tag code hidden" readonly="readonly" id="<?php echo esc_attr($args['content'] . '-mailtag'); ?>" /></label></p>
 </div>
 <?php
 }
