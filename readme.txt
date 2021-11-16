@@ -5,7 +5,7 @@ Tags: form, contact form, efo, ajax
 Requires at least: 5.7
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,14 +52,14 @@ I'm waiting for your questions.
 
 == Screenshots ==
 
-No image.
+1. Real-time validation.
 
 == Changelog ==
 
 = 1.1.0 =
 * Add confirm e-mail address input field.
 * Translation support.
-* Fix readmme.txt.
+* Fix readme.txt.
 
 = 1.0.0 =
 * First Release.

@@ -1,16 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
 	document.querySelectorAll(
-		".wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file):not(.wpcf7-quiz)"
-	).forEach((input) => {
-		input.addEventListener("blur", function fn() {
-			validate(input);
-			this.removeEventListener("blur", fn);
+		'.wpcf7-form'
+	).forEach((form) => {
+		form.querySelectorAll(
+			'.wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file):not(.wpcf7-quiz):not(.wpcf7-validates-as-required)'
+		).forEach((input) => {
 			input.addEventListener("change", () => {
+				addEventListenerToEmailAddressConfirmationoTarget(form, input);
 				validate(input);
+			});
+		});
+		// 必須項目の場合、入力されなかったときにバリデーションする必要があるためblurで発火
+		form.querySelectorAll(
+			'.wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file):not(.wpcf7-quiz).wpcf7-validates-as-required'
+		).forEach((input) => {
+			input.addEventListener("blur", function fn() {
+				addEventListenerToEmailAddressConfirmationoTarget(form, input);
+				validate(input);
+				// blurとchangeで2回発火するのを防ぐためにblurは削除
+				this.removeEventListener("blur", fn);
+				input.addEventListener("change", () => {
+					validate(input);
+				});
 			});
 		});
 	});
 });
+
+const addEventListenerToEmailAddressConfirmationoTarget = (form, input) => {
+	if( input.classList.contains('wpcf7-confirm_email') && input.dataset.targetName != null && input.dataset.targetStatus != 'eventAdded') {
+		form.querySelectorAll(
+			'.wpcf7-form-control-wrap .wpcf7-email[name="' + input.dataset.targetName + '"]'
+		).forEach((target) => {
+			target.addEventListener('change', () => {
+				validate(input);
+			});
+			input.dataset.targetStatus = 'eventAdded';
+		});
+	};
+};
 
 const validate = (input) => {
 	clearResponse(input);

@@ -68,6 +68,8 @@ function watts_confirm_email_form_tag_handler($tag)
 
 	$atts['name'] = $tag->name;
 
+	$atts['data-target-name'] = $tag->get_option( 'target' )[0];
+
 	$atts = wpcf7_format_atts( $atts );
 
 	$html = sprintf(
