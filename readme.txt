@@ -52,14 +52,14 @@ I'm waiting for your questions.
 
 == Screenshots ==
 
-No image.
+1. Real-time validation.
 
 == Changelog ==
 
 = 1.1.0 =
 * Add confirm e-mail address input field.
 * Translation support.
-* Fix readmme.txt.
+* Fix readme.txt.
 
 = 1.0.0 =
 * First Release.
