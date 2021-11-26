@@ -14,10 +14,7 @@
 
 require_once 'includes/controller.php';
 
-if (get_locale() === 'ja')
-{
-	require_once "modules/dob.php";
-}
+require_once "modules/dob.php";
 require_once "modules/confirm-email.php";
 
 add_action('wp_enqueue_scripts', 'watts_enqueue_scripts');

@@ -26,6 +26,7 @@ function watts_dob_form_tag_handler($tag)
 	$atts['class'] = $tag->get_class_option($class);
 	$atts['id'] = $tag->get_id_option();
 	$atts['tabindex'] = $tag->get_option('tabindex', 'signed_int', true);
+	$format = isset($tag->get_option('format')[0]) ? $tag->get_option('format')[0] : 'YMD';
 
 	if ($tag->is_required()) {
 		$atts['aria-required'] = 'true';
@@ -39,8 +40,6 @@ function watts_dob_form_tag_handler($tag)
 	} else {
 		$atts['aria-invalid'] = 'false';
 	}
-
-	$include_blank = $tag->has_option('include_blank');
 
 	$value = (string) reset($tag->values);
 
@@ -62,9 +61,21 @@ function watts_dob_form_tag_handler($tag)
 	$max_lifespan = 120;
 	$start_year = intval(date_i18n('Y'));
 	$until_year = $start_year - $max_lifespan;
-	$html .= watts_dob_form_part($tag, $atts, 'year', $default_value['year'], range($start_year, $until_year), '年');
-	$html .= watts_dob_form_part($tag, $atts, 'month', $default_value['month'], range(1, 12), '月');
-	$html .= watts_dob_form_part($tag, $atts, 'day', $default_value['day'], range(1, 31), '日');
+
+	$html_parts = [
+		'year' => watts_dob_form_part($tag, $atts, 'year', $default_value['year'], range($start_year, $until_year), esc_html(__('Year', 'watts'))),
+		'month' => watts_dob_form_part($tag, $atts, 'month', $default_value['month'], range(1, 12), esc_html(__('Month', 'watts'))),
+		'day' => watts_dob_form_part($tag, $atts, 'day', $default_value['day'], range(1, 31), esc_html(__('Day', 'watts')))
+	];
+
+	$html = '';
+	if ($format === 'DMY') {
+		$html = $html_parts['day'] . $html_parts['month'] . $html_parts['year'];
+	} elseif ($format === 'MDY') {
+		$html = $html_parts['month'] . $html_parts['day'] . $html_parts['year'];
+	} else { // default
+		$html = $html_parts['year'] . $html_parts['month'] . $html_parts['day'];
+	}
 
 	$html = sprintf(
 		'<span class="wpcf7-form-control-wrap %1$s">%2$s%3$s</span>',
@@ -135,7 +146,28 @@ function watts_posted_data_dob($value, $value_orig, $tag)
 		in_array('', $value_orig, true)) {
 		return '';
 	}
-	return $value_orig['year'] . '/' . $value_orig['month'] . '/' . $value_orig['day'];
+
+	$format = isset($tag->get_option('format')[0]) ? $tag->get_option('format')[0] : 'YMD';
+	$separator_option = isset($tag->get_option('separator')[0]) ? $tag->get_option('separator')[0] : 'slash';
+	$separator_map = [
+		'slash' => '/',
+		'dash' => '-',
+		'period' => '.',
+		'comma' => ',',
+		'blank' => ' '
+	];
+	$separator = array_key_exists($separator_option, $separator_map) ? $separator_map[$separator_option] : '/';
+
+	$result = '';
+	if ($format === 'DMY') {
+		$result = implode([$value_orig['day'], $value_orig['month'], $value_orig['year']], $separator);
+	} elseif ($format === 'MDY') {
+		$result = implode([$value_orig['month'], $value_orig['day'], $value_orig['year']], $separator);
+	} else { // default
+		$result = implode([$value_orig['year'], $value_orig['month'], $value_orig['day']], $separator);
+	}
+
+	return $result;
 }
 
 add_filter('wpcf7_validate_dob', 'watts_dob_validation_filter', 10, 2);
@@ -228,6 +260,34 @@ function watts_tag_generator_dob($contact_form, $args = '')
 		<legend class="screen-reader-text"><?php echo esc_html(__('Options', 'watts')); ?></legend>
 		<label><input type="checkbox" name="include_blank" class="option" /> <?php echo esc_html(__('Insert a blank item as the first option', 'watts')); ?></label>
 		</fieldset>
+	</td>
+	</tr>
+
+	<tr>
+	<th scope="row"><?php echo esc_html(__('Date Format', 'watts')); ?></th>
+	<td>
+		<input type="radio" name="format" class="formatvalue option" id="<?php echo esc_attr($args['content'] . '-format-ymd'); ?>" value="YMD" checked >
+		<label for="<?php echo esc_attr($args['content'] . '-format-ymd'); ?>">YMD</label>
+		<input type="radio" name="format" class="formatvalue option" id="<?php echo esc_attr($args['content'] . '-format-mdy'); ?>" value="MDY" >
+		<label for="<?php echo esc_attr($args['content'] . '-format-mdy'); ?>">MDY</label>
+		<input type="radio" name="format" class="formatvalue option" id="<?php echo esc_attr($args['content'] . '-format-dmy'); ?>" value="DMY" >
+		<label for="<?php echo esc_attr($args['content'] . '-format-dmy'); ?>">DMY</label>
+	</td>
+	</tr>
+
+	<tr>
+	<th scope="row"><?php echo esc_html(__('Date Separator', 'watts')); ?></th>
+	<td>
+		<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-slash'); ?>" value="slash" checked >
+		<label for="<?php echo esc_attr($args['content'] . '-separator-slash'); ?>"><?php echo esc_html(__('slash', 'watts')); ?></label>
+		<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-dash'); ?>" value="dash" >
+		<label for="<?php echo esc_attr($args['content'] . '-separator-dash'); ?>"><?php echo esc_html(__('dash', 'watts')); ?></label>
+		<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-period'); ?>" value="period" >
+		<label for="<?php echo esc_attr($args['content'] . '-separator-period'); ?>"><?php echo esc_html(__('period', 'watts')); ?></label>
+		<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-comma'); ?>" value="comma" >
+		<label for="<?php echo esc_attr($args['content'] . '-separator-comma'); ?>"><?php echo esc_html(__('comma', 'watts')); ?></label>
+		<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-blank'); ?>" value="blank" >
+		<label for="<?php echo esc_attr($args['content'] . '-separator-blank'); ?>"><?php echo esc_html(__('blank', 'watts')); ?></label>
 	</td>
 	</tr>
 
