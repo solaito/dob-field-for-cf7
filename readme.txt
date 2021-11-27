@@ -5,7 +5,7 @@ Tags: form, contact form, efo, ajax
 Requires at least: 5.7
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,15 +19,15 @@ This plugin provides the following featreus.
 
 Real-time validation using ajax (Excluding IE).
 
-Automatically converts Fullwidth Forms to Halfwidth Forms.
+Automatically converts Fullwidth Forms to Halfwidth Forms (CJK (Chinese, Japanese and Korean) only).
 
-* Email address
+* E-mail address
 * Telephone number
 
 Adding input fields.
 
+* Date of birth
 * Confirm e-mail address
-* Date of birth (Only Japanese available)
 
 == Installation ==
 
@@ -55,6 +55,13 @@ I'm waiting for your questions.
 1. Real-time validation.
 
 == Changelog ==
+
+= 1.1.2 =
+* Internationalization of date of birth input field.
+* Automatically converts Fullwidth Forms to Halfwidth Forms (CJK (Chinese, Japanese and Korean) only).
+
+= 1.1.1 =
+* Supports real-time validation of confirmation e-mail address input field.
 
 = 1.1.0 =
 * Add confirm e-mail address input field.
