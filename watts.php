@@ -7,7 +7,7 @@
  * Author URI:      https://github.com/solaito/
  * Text Domain:     watts
  * Domain Path:     /languages
- * Version:         1.1.1
+ * Version:         1.1.2
  *
  * @package         Watts
  */
