@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-	document.querySelectorAll(".wpcf7-tel, .wpcf7-email").forEach((input) => {
+	document.querySelectorAll(".wpcf7-tel, .wpcf7-email, .wpcf7-confirm_email").forEach((input) => {
 		input.addEventListener("change", function () {
 			let val = input.value;
 			val = val.replace(
