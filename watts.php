@@ -22,9 +22,11 @@ function watts_enqueue_scripts()
 {
 	$data = get_file_data(__FILE__, array('version' => 'Version'));
 	$version = $data['version'];
-	wp_enqueue_script('watts-zenkaku-to-hankaku', plugin_dir_url(__FILE__) . 'includes/js/zenkaku-to-hankaku.js', array('contact-form-7'), $version);
 	if(!(strstr($_SERVER['HTTP_USER_AGENT'], 'Trident') || strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')))
 	{
+	if (in_array(get_locale(), ['ja', 'ko_KR', 'zh_CN', 'zh_HK', 'zh_TW'], true)) {
+		wp_enqueue_script('watts-zenkaku-to-hankaku', plugin_dir_url(__FILE__) . 'includes/js/zenkaku-to-hankaku.js', array('contact-form-7'), $version);
+	}
 		wp_enqueue_script('watts-auto-validation', plugin_dir_url(__FILE__) . 'includes/js/auto-validation.js', array('contact-form-7'), $version);
 		$watts= array(
 			'api' => array(
