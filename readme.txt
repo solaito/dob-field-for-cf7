@@ -5,7 +5,7 @@ Tags: form, contact form, efo, ajax
 Requires at least: 5.7
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,9 @@ I'm waiting for your questions.
 1. Real-time validation.
 
 == Changelog ==
+
+= 1.1.3 =
+* Supports leading zero option for date of birth input field.
 
 = 1.1.2 =
 * Internationalization of date of birth input field.
