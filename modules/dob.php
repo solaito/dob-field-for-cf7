@@ -157,14 +157,23 @@ function watts_posted_data_dob($value, $value_orig, $tag)
 		'blank' => ' '
 	];
 	$separator = array_key_exists($separator_option, $separator_map) ? $separator_map[$separator_option] : '/';
+	$leading_zero= $tag->has_option('leading_zero');
+
+	$year = $value_orig['year'];
+	$month= $value_orig['month'];
+	$day = $value_orig['day'];
+	if($leading_zero) {
+		$month= str_pad($month, 2, '0', STR_PAD_LEFT);
+		$day = str_pad($day, 2, '0', STR_PAD_LEFT);
+	}
 
 	$result = '';
 	if ($format === 'DMY') {
-		$result = implode([$value_orig['day'], $value_orig['month'], $value_orig['year']], $separator);
+		$result = implode([$day, $month, $year], $separator);
 	} elseif ($format === 'MDY') {
-		$result = implode([$value_orig['month'], $value_orig['day'], $value_orig['year']], $separator);
+		$result = implode([$month, $day, $year], $separator);
 	} else { // default
-		$result = implode([$value_orig['year'], $value_orig['month'], $value_orig['day']], $separator);
+		$result = implode([$year, $month, $day], $separator);
 	}
 
 	return $result;
@@ -264,30 +273,43 @@ function watts_tag_generator_dob($contact_form, $args = '')
 	</tr>
 
 	<tr>
-	<th scope="row"><?php echo esc_html(__('Date Format', 'watts')); ?></th>
+	<th scope="row" rowspan="3"><?php echo esc_html(__('Date Format', 'watts')); ?></th>
 	<td>
-		<input type="radio" name="format" class="formatvalue option" id="<?php echo esc_attr($args['content'] . '-format-ymd'); ?>" value="YMD" checked >
-		<label for="<?php echo esc_attr($args['content'] . '-format-ymd'); ?>">YMD</label>
-		<input type="radio" name="format" class="formatvalue option" id="<?php echo esc_attr($args['content'] . '-format-mdy'); ?>" value="MDY" >
-		<label for="<?php echo esc_attr($args['content'] . '-format-mdy'); ?>">MDY</label>
-		<input type="radio" name="format" class="formatvalue option" id="<?php echo esc_attr($args['content'] . '-format-dmy'); ?>" value="DMY" >
-		<label for="<?php echo esc_attr($args['content'] . '-format-dmy'); ?>">DMY</label>
+		<fieldset>
+			<legend><?php echo esc_html(__('Date Style', 'watts')); ?></legend>
+			<input type="radio" name="format" class="formatvalue option" id="<?php echo esc_attr($args['content'] . '-format-ymd'); ?>" value="YMD" checked >
+			<label for="<?php echo esc_attr($args['content'] . '-format-ymd'); ?>">YMD</label>
+			<input type="radio" name="format" class="formatvalue option" id="<?php echo esc_attr($args['content'] . '-format-mdy'); ?>" value="MDY" >
+			<label for="<?php echo esc_attr($args['content'] . '-format-mdy'); ?>">MDY</label>
+			<input type="radio" name="format" class="formatvalue option" id="<?php echo esc_attr($args['content'] . '-format-dmy'); ?>" value="DMY" >
+			<label for="<?php echo esc_attr($args['content'] . '-format-dmy'); ?>">DMY</label>
+		</fieldset>
+	</td>
+	</tr>
+	<tr>
+	<td>
+		<fieldset>
+			<legend><?php echo esc_html(__('Date Separator', 'watts')); ?></legend>
+			<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-slash'); ?>" value="slash" checked >
+			<label for="<?php echo esc_attr($args['content'] . '-separator-slash'); ?>"><?php echo esc_html(__('slash', 'watts')); ?></label>
+			<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-dash'); ?>" value="dash" >
+			<label for="<?php echo esc_attr($args['content'] . '-separator-dash'); ?>"><?php echo esc_html(__('dash', 'watts')); ?></label>
+			<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-period'); ?>" value="period" >
+			<label for="<?php echo esc_attr($args['content'] . '-separator-period'); ?>"><?php echo esc_html(__('period', 'watts')); ?></label>
+			<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-comma'); ?>" value="comma" >
+			<label for="<?php echo esc_attr($args['content'] . '-separator-comma'); ?>"><?php echo esc_html(__('comma', 'watts')); ?></label>
+			<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-blank'); ?>" value="blank" >
+			<label for="<?php echo esc_attr($args['content'] . '-separator-blank'); ?>"><?php echo esc_html(__('blank', 'watts')); ?></label>
+		</fieldset>
 	</td>
 	</tr>
 
 	<tr>
-	<th scope="row"><?php echo esc_html(__('Date Separator', 'watts')); ?></th>
 	<td>
-		<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-slash'); ?>" value="slash" checked >
-		<label for="<?php echo esc_attr($args['content'] . '-separator-slash'); ?>"><?php echo esc_html(__('slash', 'watts')); ?></label>
-		<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-dash'); ?>" value="dash" >
-		<label for="<?php echo esc_attr($args['content'] . '-separator-dash'); ?>"><?php echo esc_html(__('dash', 'watts')); ?></label>
-		<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-period'); ?>" value="period" >
-		<label for="<?php echo esc_attr($args['content'] . '-separator-period'); ?>"><?php echo esc_html(__('period', 'watts')); ?></label>
-		<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-comma'); ?>" value="comma" >
-		<label for="<?php echo esc_attr($args['content'] . '-separator-comma'); ?>"><?php echo esc_html(__('comma', 'watts')); ?></label>
-		<input type="radio" name="separator" class="separatorvalue option" id="<?php echo esc_attr($args['content'] . '-separator-blank'); ?>" value="blank" >
-		<label for="<?php echo esc_attr($args['content'] . '-separator-blank'); ?>"><?php echo esc_html(__('blank', 'watts')); ?></label>
+		<fieldset>
+		<legend><?php echo esc_html(__('Display Leading Zero', 'watts')); ?></legend>
+		<label><input type="checkbox" name="leading_zero" class="option" /> <?php echo esc_html(__('Indicates whether to display (or suppress) leading zeros.', 'watts')); ?></label>
+		</fieldset>
 	</td>
 	</tr>
 
