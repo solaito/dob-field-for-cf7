@@ -70,9 +70,11 @@ const validate = (input) => {
 	const setVisualValidationError = (error) => {
 		const wrap = form.querySelector(error.into);
 
-		const control = wrap.querySelector(".wpcf7-form-control");
-		control.classList.add("wpcf7-not-valid");
-		control.setAttribute("aria-describedby", error.error_id);
+		const controls = wrap.querySelectorAll(".wpcf7-form-control");
+		controls.forEach((control) => {
+			control.classList.add("wpcf7-not-valid");
+			control.setAttribute("aria-describedby", error.error_id);
+		});
 
 		const tip = document.createElement("span");
 		tip.setAttribute("class", "wpcf7-not-valid-tip");
@@ -84,15 +86,17 @@ const validate = (input) => {
 			elm.setAttribute("aria-invalid", "true");
 		});
 
-		if (control.closest(".use-floating-validation-tip")) {
-			control.addEventListener("focus", (event) => {
-				tip.setAttribute("style", "display: none");
-			});
+		controls.forEach((control) => {
+			if (control.closest(".use-floating-validation-tip")) {
+				control.addEventListener("focus", (event) => {
+					tip.setAttribute("style", "display: none");
+				});
 
-			tip.addEventListener("mouseover", (event) => {
-				tip.setAttribute("style", "display: none");
-			});
-		}
+				tip.addEventListener("mouseover", (event) => {
+					tip.setAttribute("style", "display: none");
+				});
+			}
+		});
 	};
 
 	fetch(validateionEndpoint(form.wpcf7.id), {
