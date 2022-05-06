@@ -3,11 +3,11 @@
  * Plugin Name:     Watts
  * Plugin URI:      https://wp-watts.com/
  * Description:     The Watts will performs EFO(Entry Form Optimization) for your Contact Form 7.
- * Author:          s.matsuura
+ * Author:          Tonica, LLC.
  * Author URI:      https://github.com/solaito/
  * Text Domain:     watts
  * Domain Path:     /languages
- * Version:         1.1.3
+ * Version:         1.2.0
  *
  * @package         Watts
  */

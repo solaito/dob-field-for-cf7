@@ -3,9 +3,9 @@ Contributors: solaito
 Donate link: https://wp-watts.com/
 Tags: form, contact form, efo, ajax
 Requires at least: 5.7
-Tested up to: 5.8
+Tested up to: 5.9.3
 Requires PHP: 5.6
-Stable tag: 1.1.3
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ The Watts will performs EFO(Entry Form Optimization) for your Contact Form 7.
 
 This plugin provides the following featreus.
 
-Real-time validation using ajax (Excluding IE).
+Real-time validation using ajax (Excluding IE). Displays an icon indicating the validation result.
 
 Automatically converts Fullwidth Forms to Halfwidth Forms (CJK (Chinese, Japanese and Korean) only).
 
@@ -55,6 +55,9 @@ I'm waiting for your questions.
 1. Real-time validation.
 
 == Changelog ==
+
+= 1.2.0 =
+* Supports icon display showing validation results.
 
 = 1.1.3 =
 * Supports leading zero option for date of birth input field.
