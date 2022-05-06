@@ -73,8 +73,13 @@ const validate = (input) => {
 		const controls = wrap.querySelectorAll(".wpcf7-form-control");
 		controls.forEach((control) => {
 			control.classList.add("wpcf7-not-valid");
+			control.classList.add("watts-not-valid");
 			control.setAttribute("aria-describedby", error.error_id);
 		});
+
+		if (getComputedStyle(wrap.lastChild).display != "block") {
+			wrap.appendChild(validationIcon("error"));
+		}
 
 		const tip = document.createElement("span");
 		tip.setAttribute("class", "wpcf7-not-valid-tip");
@@ -99,6 +104,18 @@ const validate = (input) => {
 		});
 	};
 
+	const setVisualValidationSuccess = (input) => {
+		const wrap= input.closest(".wpcf7-form-control-wrap");
+		const controls = wrap.querySelectorAll(".wpcf7-form-control");
+		controls.forEach((control) => {
+			control.classList.add("watts-valid");
+		});
+
+		if (getComputedStyle(wrap.lastChild).display != "block") {
+			wrap.appendChild(validationIcon('success'));
+		}
+	};
+
 	fetch(validateionEndpoint(form.wpcf7.id), {
 		method: "POST",
 		body: formData,
@@ -107,15 +124,32 @@ const validate = (input) => {
 			return response.json();
 		})
 		.then((response) => {
-			if (response.invalid_fields) {
-				response.invalid_fields.forEach(setScreenReaderValidationError);
-				response.invalid_fields.forEach(setVisualValidationError);
+			if(response.status === 'validation_failed') {
+				if (response.invalid_fields?.length) {
+					response.invalid_fields.forEach(setScreenReaderValidationError);
+					response.invalid_fields.forEach(setVisualValidationError);
+				}
+			} else if(response.status === 'validation_succeeded') {
+				setVisualValidationSuccess(input);
 			}
 		})
 		.catch((error) => {
 			console.log(error);
 		});
 };
+
+const validationIcon = (status) => {
+	const svgNamespace = "http://www.w3.org/2000/svg";
+	const svgXlinkNamespace = "http://www.w3.org/1999/xlink";
+
+	const svg = document.createElementNS(svgNamespace, "svg");
+	const use = document.createElementNS(svgNamespace, "use");
+	use.setAttributeNS(svgXlinkNamespace, "xlink:href", `${watts.plugin.dir}/includes/assets/validation-${status}-icon.svg#watts-validation-${status}-icon`);
+	svg.setAttributeNS(null, "class", "watts-validation-icon");
+	svg.appendChild(use);
+
+	return svg;
+}
 
 const clearResponse = (input) => {
 	clearScreenReaderResponse(input);
@@ -126,6 +160,10 @@ const clearResponse = (input) => {
 		span.remove();
 	});
 
+	input_wrapper.querySelectorAll(".watts-validation-icon").forEach((svg) => {
+		svg.remove();
+	});
+
 	input_wrapper.querySelectorAll("[aria-invalid]").forEach((elm) => {
 		elm.setAttribute("aria-invalid", "false");
 	});
@@ -133,6 +171,8 @@ const clearResponse = (input) => {
 	input_wrapper.querySelectorAll(".wpcf7-form-control").forEach((control) => {
 		control.removeAttribute("aria-describedby");
 		control.classList.remove("wpcf7-not-valid");
+		control.classList.remove("watts-not-valid");
+		control.classList.remove("watts-valid");
 	});
 
 	input_wrapper.querySelectorAll(".wpcf7-response-output").forEach((div) => {

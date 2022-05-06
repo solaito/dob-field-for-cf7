@@ -32,9 +32,13 @@ function watts_enqueue_scripts()
 					'root' => esc_url_raw( get_rest_url() ),
 					'namespace' => 'watts/v1',
 			),
+			'plugin' => array(
+					'dir' => esc_url_raw(plugin_dir_url(__FILE__)),
+			)
 		);
 		wp_localize_script( 'watts-auto-validation', 'watts', $watts );
 	}
+	wp_enqueue_style('watts', plugin_dir_url(__FILE__) . 'includes/css/style.css', array('contact-form-7'), $version);
 }
 
 add_action('rest_api_init', function () {

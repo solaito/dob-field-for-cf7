@@ -1,0 +1,14 @@
+.watts-validation-icon {
+	width:30px;
+	height:30px;
+	vertical-align:middle;
+	margin-left: 10px;
+}
+
+.watts-valid + .watts-validation-icon {
+	fill: #60b66d;
+}
+
+.watts-not-valid + .watts-validation-icon {
+	fill: #c15054;
+}
