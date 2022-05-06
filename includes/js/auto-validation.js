@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			'.wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file):not(.wpcf7-quiz):not(.wpcf7-validates-as-required)'
 		).forEach((input) => {
 			input.addEventListener("change", () => {
-				addEventListenerToEmailAddressConfirmationoTarget(form, input);
+				addEventListenerToEmailAddressConfirmationTarget(form, input);
 				validate(input);
 			});
 		});
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			'.wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file):not(.wpcf7-quiz).wpcf7-validates-as-required'
 		).forEach((input) => {
 			input.addEventListener("blur", function fn() {
-				addEventListenerToEmailAddressConfirmationoTarget(form, input);
+				addEventListenerToEmailAddressConfirmationTarget(form, input);
 				validate(input);
 				// blurとchangeで2回発火するのを防ぐためにblurは削除
 				this.removeEventListener("blur", fn);
@@ -27,10 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 });
 
-const addEventListenerToEmailAddressConfirmationoTarget = (form, input) => {
+const addEventListenerToEmailAddressConfirmationTarget = (form, input) => {
 	if( input.classList.contains('wpcf7-confirm_email') && input.dataset.targetName != null && input.dataset.targetStatus != 'eventAdded') {
 		form.querySelectorAll(
-			'.wpcf7-form-control-wrap .wpcf7-email[name="' + input.dataset.targetName + '"]'
+			`.wpcf7-form-control-wrap .wpcf7-email[name="${input.dataset.targetName}"]`
 		).forEach((target) => {
 			target.addEventListener('change', () => {
 				validate(input);
@@ -70,9 +70,16 @@ const validate = (input) => {
 	const setVisualValidationError = (error) => {
 		const wrap = form.querySelector(error.into);
 
-		const control = wrap.querySelector(".wpcf7-form-control");
-		control.classList.add("wpcf7-not-valid");
-		control.setAttribute("aria-describedby", error.error_id);
+		const controls = wrap.querySelectorAll(".wpcf7-form-control");
+		controls.forEach((control) => {
+			control.classList.add("wpcf7-not-valid");
+			control.classList.add("watts-not-valid");
+			control.setAttribute("aria-describedby", error.error_id);
+		});
+
+		if (getComputedStyle(wrap.lastChild).display != "block") {
+			wrap.appendChild(validationIcon("error"));
+		}
 
 		const tip = document.createElement("span");
 		tip.setAttribute("class", "wpcf7-not-valid-tip");
@@ -84,14 +91,28 @@ const validate = (input) => {
 			elm.setAttribute("aria-invalid", "true");
 		});
 
-		if (control.closest(".use-floating-validation-tip")) {
-			control.addEventListener("focus", (event) => {
-				tip.setAttribute("style", "display: none");
-			});
+		controls.forEach((control) => {
+			if (control.closest(".use-floating-validation-tip")) {
+				control.addEventListener("focus", (event) => {
+					tip.setAttribute("style", "display: none");
+				});
 
-			tip.addEventListener("mouseover", (event) => {
-				tip.setAttribute("style", "display: none");
-			});
+				tip.addEventListener("mouseover", (event) => {
+					tip.setAttribute("style", "display: none");
+				});
+			}
+		});
+	};
+
+	const setVisualValidationSuccess = (input) => {
+		const wrap= input.closest(".wpcf7-form-control-wrap");
+		const controls = wrap.querySelectorAll(".wpcf7-form-control");
+		controls.forEach((control) => {
+			control.classList.add("watts-valid");
+		});
+
+		if (getComputedStyle(wrap.lastChild).display != "block") {
+			wrap.appendChild(validationIcon('success'));
 		}
 	};
 
@@ -103,15 +124,32 @@ const validate = (input) => {
 			return response.json();
 		})
 		.then((response) => {
-			if (response.invalid_fields) {
-				response.invalid_fields.forEach(setScreenReaderValidationError);
-				response.invalid_fields.forEach(setVisualValidationError);
+			if(response.status === 'validation_failed') {
+				if (response.invalid_fields?.length) {
+					response.invalid_fields.forEach(setScreenReaderValidationError);
+					response.invalid_fields.forEach(setVisualValidationError);
+				}
+			} else if(response.status === 'validation_succeeded') {
+				setVisualValidationSuccess(input);
 			}
 		})
 		.catch((error) => {
 			console.log(error);
 		});
 };
+
+const validationIcon = (status) => {
+	const svgNamespace = "http://www.w3.org/2000/svg";
+	const svgXlinkNamespace = "http://www.w3.org/1999/xlink";
+
+	const svg = document.createElementNS(svgNamespace, "svg");
+	const use = document.createElementNS(svgNamespace, "use");
+	use.setAttributeNS(svgXlinkNamespace, "xlink:href", `${watts.plugin.dir}/includes/assets/validation-${status}-icon.svg#watts-validation-${status}-icon`);
+	svg.setAttributeNS(null, "class", "watts-validation-icon");
+	svg.appendChild(use);
+
+	return svg;
+}
 
 const clearResponse = (input) => {
 	clearScreenReaderResponse(input);
@@ -122,6 +160,10 @@ const clearResponse = (input) => {
 		span.remove();
 	});
 
+	input_wrapper.querySelectorAll(".watts-validation-icon").forEach((svg) => {
+		svg.remove();
+	});
+
 	input_wrapper.querySelectorAll("[aria-invalid]").forEach((elm) => {
 		elm.setAttribute("aria-invalid", "false");
 	});
@@ -129,6 +171,8 @@ const clearResponse = (input) => {
 	input_wrapper.querySelectorAll(".wpcf7-form-control").forEach((control) => {
 		control.removeAttribute("aria-describedby");
 		control.classList.remove("wpcf7-not-valid");
+		control.classList.remove("watts-not-valid");
+		control.classList.remove("watts-valid");
 	});
 
 	input_wrapper.querySelectorAll(".wpcf7-response-output").forEach((div) => {
@@ -139,7 +183,7 @@ const clearResponse = (input) => {
 const clearScreenReaderResponse = (input) => {
 	let form = input.closest("form");
 	form.wpcf7.parent
-		.querySelectorAll("#" + form.wpcf7.parent.id + "-ve-" + input.name)
+		.querySelectorAll(`#${form.wpcf7.parent.id}-ve-${input.name}`)
 		.forEach((li) => {
 			li.remove();
 		});
@@ -155,7 +199,7 @@ const normalizeInputName = (name) => {
 };
 
 const validateionEndpoint = (id) =>
-	watts.api.root + watts.api.namespace + "/" + id + "/validation";
+	`${watts.api.root}${watts.api.namespace}/${id}/validation`;
 
 const deleteFile = (formData) => {
 	for (const item of formData) {
