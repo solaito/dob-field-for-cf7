@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			'.wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file):not(.wpcf7-quiz):not(.wpcf7-validates-as-required)'
 		).forEach((input) => {
 			input.addEventListener("change", () => {
-				addEventListenerToEmailAddressConfirmationoTarget(form, input);
+				addEventListenerToEmailAddressConfirmationTarget(form, input);
 				validate(input);
 			});
 		});
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			'.wpcf7-form-control-wrap .wpcf7-form-control:not(.wpcf7-file):not(.wpcf7-quiz).wpcf7-validates-as-required'
 		).forEach((input) => {
 			input.addEventListener("blur", function fn() {
-				addEventListenerToEmailAddressConfirmationoTarget(form, input);
+				addEventListenerToEmailAddressConfirmationTarget(form, input);
 				validate(input);
 				// blurとchangeで2回発火するのを防ぐためにblurは削除
 				this.removeEventListener("blur", fn);
@@ -27,10 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 });
 
-const addEventListenerToEmailAddressConfirmationoTarget = (form, input) => {
+const addEventListenerToEmailAddressConfirmationTarget = (form, input) => {
 	if( input.classList.contains('wpcf7-confirm_email') && input.dataset.targetName != null && input.dataset.targetStatus != 'eventAdded') {
 		form.querySelectorAll(
-			'.wpcf7-form-control-wrap .wpcf7-email[name="' + input.dataset.targetName + '"]'
+			`.wpcf7-form-control-wrap .wpcf7-email[name="${input.dataset.targetName}"]`
 		).forEach((target) => {
 			target.addEventListener('change', () => {
 				validate(input);
@@ -183,7 +183,7 @@ const clearResponse = (input) => {
 const clearScreenReaderResponse = (input) => {
 	let form = input.closest("form");
 	form.wpcf7.parent
-		.querySelectorAll("#" + form.wpcf7.parent.id + "-ve-" + input.name)
+		.querySelectorAll(`#${form.wpcf7.parent.id}-ve-${input.name}`)
 		.forEach((li) => {
 			li.remove();
 		});
@@ -199,7 +199,7 @@ const normalizeInputName = (name) => {
 };
 
 const validateionEndpoint = (id) =>
-	watts.api.root + watts.api.namespace + "/" + id + "/validation";
+	`${watts.api.root}${watts.api.namespace}/${id}/validation`;
 
 const deleteFile = (formData) => {
 	for (const item of formData) {
