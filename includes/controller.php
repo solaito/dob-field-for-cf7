@@ -1,5 +1,5 @@
 <?php
-require_once 'auto-validation.php';
+require_once 'realtime-validation.php';
 class Watts_Rest_Controller
 {
 	const route_namespace = 'watts/v1';
@@ -11,15 +11,15 @@ class Watts_Rest_Controller
 			[
 				'methods' => WP_REST_Server::CREATABLE,
 				'permission_callback' => '__return_true',
-				'callback' => array($this, 'auto_validation'),
+				'callback' => array($this, 'realtime_validation'),
 			]
 		);
 	}
 
-	public function auto_validation(WP_REST_Request $request)
+	public function realtime_validation(WP_REST_Request $request)
 	{
-		$wav = new Watts_Auto_Validation();
-		$response = $wav->main($request);
+		$wrv = new Watts_Realtime_Validation();
+		$response = $wrv->main($request);
 		return rest_ensure_response($response);
 	}
 }

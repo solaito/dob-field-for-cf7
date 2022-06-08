@@ -78,7 +78,10 @@ const validate = (input) => {
 		});
 
 		if (getComputedStyle(wrap.lastChild).display != "block") {
-			wrap.appendChild(validationIcon("error"));
+			const icon = validationIcon("error");
+			if (icon !== null) {
+				wrap.appendChild(icon);
+			}
 		}
 
 		const tip = document.createElement("span");
@@ -112,7 +115,10 @@ const validate = (input) => {
 		});
 
 		if (getComputedStyle(wrap.lastChild).display != "block") {
-			wrap.appendChild(validationIcon('success'));
+			const icon = validationIcon("success");
+			if (icon !== null) {
+				wrap.appendChild(icon);
+			}
 		}
 	};
 
@@ -139,13 +145,16 @@ const validate = (input) => {
 };
 
 const validationIcon = (status) => {
+	if (!watts.plugin.validate_icon_enable) return null;
+	const iconSize = watts.plugin.validate_icon_size;
+
 	const svgNamespace = "http://www.w3.org/2000/svg";
 	const svgXlinkNamespace = "http://www.w3.org/1999/xlink";
 
 	const svg = document.createElementNS(svgNamespace, "svg");
 	const use = document.createElementNS(svgNamespace, "use");
 	use.setAttributeNS(svgXlinkNamespace, "xlink:href", `${watts.plugin.dir}/includes/assets/validation-${status}-icon.svg#watts-validation-${status}-icon`);
-	svg.setAttributeNS(null, "class", "watts-validation-icon");
+	svg.setAttributeNS(null, "class", `watts-validation-icon watts-validation-icon-${iconSize}`);
 	svg.appendChild(use);
 
 	return svg;

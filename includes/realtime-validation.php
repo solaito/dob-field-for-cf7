@@ -1,6 +1,6 @@
 <?php
 
-class Watts_Auto_Validation
+class Watts_Realtime_Validation
 {
 	const target_name = 'watts-validation-target';
 	const excluded_basetypes = array('file', 'quiz');

@@ -1,7 +1,7 @@
 module.exports = {
     entry: {
-        'dest/includes/js/auto-validation': './includes/js/auto-validation.js',
-        'dest/includes/js/zenkaku-to-hankaku': './includes/js/zenkaku-to-hankaku.js',
+        'dest/includes/js/realtime-validation': './includes/js/realtime-validation.js',
+        'dest/includes/js/full-to-half': './includes/js/full-to-half.js',
     },
     output: {
         path: __dirname,
