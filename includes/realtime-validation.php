@@ -66,11 +66,11 @@ class Watts_Realtime_Validation {
 			'name' => $name,
 		) );
 		foreach ( $tags as $tag ) {
-			if ( array_search( $tag['basetype'], self::excluded_basetypes, true ) !== false ) {
+			if ( in_array( $tag['basetype'], self::excluded_basetypes, true ) ) {
 				return false;
 			}
-			$type   = $tag->type;
-			$result = apply_filters( "wpcf7_validate_{$type}", $validation, $tag );
+			$type       = $tag->type;
+			$validation = apply_filters( "wpcf7_validate_{$type}", $validation, $tag );
 		}
 
 		$validation = apply_filters( 'wpcf7_validate', $validation, $tags );

@@ -34,9 +34,7 @@ class Watts_Options_Page {
 			'Watts', // menu_title
 			'manage_options', // capability
 			'watts', // menu_slug
-			array( $this, 'watts_create_admin_page' ), // function
-			'dashicons-admin-generic', // icon_url
-			2 // position
+			array( $this, 'watts_create_admin_page' ) // function
 		);
 	}
 
@@ -44,7 +42,7 @@ class Watts_Options_Page {
 		$this->watts_options = get_option( 'watts_option_name' ); ?>
 
 		<div class="wrap">
-			<h2>Watts</h2>
+			<h1>Watts</h1>
 			<p></p>
 
 			<form method="post" action="options.php">
@@ -138,11 +136,11 @@ class Watts_Options_Page {
 		$id      = $args[0];
 		$options = $args[1];
 
-		$str = sprintf( '<select name="watts_option_name[%s] id="%s">', $id, $id );
+		$str = sprintf( '<select name="watts_option_name[%s]" id="%s">', $id, $id );
 
 		$option_selected = isset( $this->watts_options[ $id ] ) ? $this->watts_options[ $id ] : 'medium';
 		foreach ( $options as $option => $label ) {
-			$str .= sprintf( '<option value="%s"%s>%s</option>',
+			$str .= sprintf( '<option value="%s" %s>%s</option>',
 				$option,
 				$option === $option_selected ? ' selected' : '',
 				$label

@@ -40,7 +40,12 @@ function watts_dob_form_tag_handler( $tag ) {
 		$atts['aria-invalid'] = 'false';
 	}
 
-	$value = (string) reset( $tag->values );
+	$value         = (string) reset( $tag->values );
+	$default_value = [
+		'year'  => null,
+		'month' => null,
+		'day'   => null,
+	];
 
 	$value = $tag->get_default_option( $value );
 	if ( $value ) {
