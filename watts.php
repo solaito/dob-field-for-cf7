@@ -6,7 +6,6 @@
  * Author:          Tonica, LLC.
  * Author URI:      https://github.com/solaito/
  * Text Domain:     watts
- * Domain Path:     /languages
  * Version:         1.2.0
  *
  * @package         Watts
