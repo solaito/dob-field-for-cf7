@@ -5,7 +5,7 @@ Tags: form, contact form, efo, ajax
 Requires at least: 5.7
 Tested up to: 5.9.3
 Requires PHP: 5.6
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,9 @@ I'm waiting for your questions.
 1. Real-time validation.
 
 == Changelog ==
+
+= 1.2.1 =
+* Added settings page.
 
 = 1.2.0 =
 * Supports icon display showing validation results.
