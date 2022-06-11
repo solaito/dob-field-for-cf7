@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const addEventListenerToEmailAddressConfirmationTarget = (form, input) => {
-	if( input.classList.contains('wpcf7-confirm_email') && input.dataset.targetName != null && input.dataset.targetStatus != 'eventAdded') {
+	if (input.classList.contains('wpcf7-confirm_email') && input.dataset.targetName != null && input.dataset.targetStatus != 'eventAdded') {
 		form.querySelectorAll(
 			`.wpcf7-form-control-wrap .wpcf7-email[name="${input.dataset.targetName}"]`
 		).forEach((target) => {
@@ -37,7 +37,8 @@ const addEventListenerToEmailAddressConfirmationTarget = (form, input) => {
 			});
 			input.dataset.targetStatus = 'eventAdded';
 		});
-	};
+	}
+	;
 };
 
 const validate = (input) => {
@@ -108,7 +109,7 @@ const validate = (input) => {
 	};
 
 	const setVisualValidationSuccess = (input) => {
-		const wrap= input.closest(".wpcf7-form-control-wrap");
+		const wrap = input.closest(".wpcf7-form-control-wrap");
 		const controls = wrap.querySelectorAll(".wpcf7-form-control");
 		controls.forEach((control) => {
 			control.classList.add("watts-valid");
@@ -130,12 +131,12 @@ const validate = (input) => {
 			return response.json();
 		})
 		.then((response) => {
-			if(response.status === 'validation_failed') {
+			if (response.status === 'validation_failed') {
 				if (response.invalid_fields?.length) {
 					response.invalid_fields.forEach(setScreenReaderValidationError);
 					response.invalid_fields.forEach(setVisualValidationError);
 				}
-			} else if(response.status === 'validation_succeeded') {
+			} else if (response.status === 'validation_succeeded') {
 				setVisualValidationSuccess(input);
 			}
 		})
@@ -212,8 +213,7 @@ const validateionEndpoint = (id) =>
 
 const deleteFile = (formData) => {
 	for (const item of formData) {
-		if(File.prototype.isPrototypeOf(item[1]))
-		{
+		if (File.prototype.isPrototypeOf(item[1])) {
 			formData.delete(item[0]);
 		}
 	}

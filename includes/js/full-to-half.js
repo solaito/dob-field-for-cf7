@@ -3,10 +3,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		input.addEventListener("change", function () {
 			let val = input.value;
 			val = val.replace(
-			/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g,
-			function (s) {
-				return String.fromCharCode(s.charCodeAt(0) - 65248);
-			}
+				/[Ａ-Ｚａ-ｚ０-９－！”＃＄％＆’（）＝＜＞，．？＿［］｛｝＠＾～￥]/g,
+				function (s) {
+					return String.fromCharCode(s.charCodeAt(0) - 65248);
+				}
 			);
 			input.value = val;
 		});

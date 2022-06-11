@@ -8,3 +8,4 @@ dest/
 *.sql
 *.tar.gz
 *.zip
+.idea
