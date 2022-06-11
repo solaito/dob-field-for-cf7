@@ -1,11 +1,11 @@
 module.exports = {
     entry: {
-        'dist/auto-validation': './includes/js/auto-validation.js',
-        'dist/zenkaku-to-hankaku': './includes/js/zenkaku-to-hankaku.js',
+        'dest/includes/js/realtime-validation': './includes/js/realtime-validation.js',
+        'dest/includes/js/full-to-half': './includes/js/full-to-half.js',
     },
     output: {
         path: __dirname,
-        filename: '[name].bundle.js',
+        filename: '[name].js',
     },
     target: ['web', 'es5'],
     module: {

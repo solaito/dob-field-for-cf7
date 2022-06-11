@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const addEventListenerToEmailAddressConfirmationTarget = (form, input) => {
-	if( input.classList.contains('wpcf7-confirm_email') && input.dataset.targetName != null && input.dataset.targetStatus != 'eventAdded') {
+	if (input.classList.contains('wpcf7-confirm_email') && input.dataset.targetName != null && input.dataset.targetStatus != 'eventAdded') {
 		form.querySelectorAll(
 			`.wpcf7-form-control-wrap .wpcf7-email[name="${input.dataset.targetName}"]`
 		).forEach((target) => {
@@ -37,7 +37,8 @@ const addEventListenerToEmailAddressConfirmationTarget = (form, input) => {
 			});
 			input.dataset.targetStatus = 'eventAdded';
 		});
-	};
+	}
+	;
 };
 
 const validate = (input) => {
@@ -78,7 +79,10 @@ const validate = (input) => {
 		});
 
 		if (getComputedStyle(wrap.lastChild).display != "block") {
-			wrap.appendChild(validationIcon("error"));
+			const icon = validationIcon("error");
+			if (icon !== null) {
+				wrap.appendChild(icon);
+			}
 		}
 
 		const tip = document.createElement("span");
@@ -105,14 +109,17 @@ const validate = (input) => {
 	};
 
 	const setVisualValidationSuccess = (input) => {
-		const wrap= input.closest(".wpcf7-form-control-wrap");
+		const wrap = input.closest(".wpcf7-form-control-wrap");
 		const controls = wrap.querySelectorAll(".wpcf7-form-control");
 		controls.forEach((control) => {
 			control.classList.add("watts-valid");
 		});
 
 		if (getComputedStyle(wrap.lastChild).display != "block") {
-			wrap.appendChild(validationIcon('success'));
+			const icon = validationIcon("success");
+			if (icon !== null) {
+				wrap.appendChild(icon);
+			}
 		}
 	};
 
@@ -124,12 +131,12 @@ const validate = (input) => {
 			return response.json();
 		})
 		.then((response) => {
-			if(response.status === 'validation_failed') {
+			if (response.status === 'validation_failed') {
 				if (response.invalid_fields?.length) {
 					response.invalid_fields.forEach(setScreenReaderValidationError);
 					response.invalid_fields.forEach(setVisualValidationError);
 				}
-			} else if(response.status === 'validation_succeeded') {
+			} else if (response.status === 'validation_succeeded') {
 				setVisualValidationSuccess(input);
 			}
 		})
@@ -139,13 +146,16 @@ const validate = (input) => {
 };
 
 const validationIcon = (status) => {
+	if (!watts.plugin.validate_icon_enable) return null;
+	const iconSize = watts.plugin.validate_icon_size;
+
 	const svgNamespace = "http://www.w3.org/2000/svg";
 	const svgXlinkNamespace = "http://www.w3.org/1999/xlink";
 
 	const svg = document.createElementNS(svgNamespace, "svg");
 	const use = document.createElementNS(svgNamespace, "use");
 	use.setAttributeNS(svgXlinkNamespace, "xlink:href", `${watts.plugin.dir}/includes/assets/validation-${status}-icon.svg#watts-validation-${status}-icon`);
-	svg.setAttributeNS(null, "class", "watts-validation-icon");
+	svg.setAttributeNS(null, "class", `watts-validation-icon watts-validation-icon-${iconSize}`);
 	svg.appendChild(use);
 
 	return svg;
@@ -203,8 +213,7 @@ const validateionEndpoint = (id) =>
 
 const deleteFile = (formData) => {
 	for (const item of formData) {
-		if(File.prototype.isPrototypeOf(item[1]))
-		{
+		if (File.prototype.isPrototypeOf(item[1])) {
 			formData.delete(item[0]);
 		}
 	}

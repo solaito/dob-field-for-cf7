@@ -4,7 +4,8 @@ phpunit.xml
 Thumbs.db
 wp-cli.local.yml
 node_modules/
-dist/
+dest/
 *.sql
 *.tar.gz
 *.zip
+.idea
