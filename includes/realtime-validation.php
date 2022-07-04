@@ -19,7 +19,7 @@ class Watts_Realtime_Validation {
 
 			if ( ! $contact_form ) {
 				return new WP_Error( 'watts_wpcf7_not_found',
-					__( "The requested contact form was not found.", 'watts' ),
+					__( "The requested contact form was not found.", WATTS_TEXT_DOMAIN ),
 					array( 'status' => 404 )
 				);
 			}
@@ -33,7 +33,7 @@ class Watts_Realtime_Validation {
 			$invalid_fields = $this->validate( $request->get_param( self::target_name ), $contact_form );
 			if ( $invalid_fields === false ) {
 				return new WP_Error( 'watts_not_allowed_validation',
-					__( "The requested validation was not allowed.", 'watts' ),
+					__( "The requested validation was not allowed.", WATTS_TEXT_DOMAIN ),
 					array( 'status' => 404 )
 				);
 			}
@@ -46,7 +46,7 @@ class Watts_Realtime_Validation {
 			$response = $this->result_to_response( $result );
 		} catch ( Watts_Dependency_Exception $e ) {
 			return new WP_Error( 'watts_server_error',
-				__( "We're sorry, a server error occurred auto validation.", 'watts' ),
+				__( "We're sorry, a server error occurred auto validation.", WATTS_TEXT_DOMAIN ),
 				array( 'status' => 500 )
 			);
 		}

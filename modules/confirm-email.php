@@ -99,7 +99,7 @@ function watts_confirm_email_validation_filter( $result, $tag ) {
 		? trim( wp_unslash( strtr( (string) $_POST[ $target ], "\n", " " ) ) )
 		: '';
 	if ( $value !== $target_value ) {
-		$result->invalidate( $tag, __( 'Email addresses you entered do not match.', 'watts' ) );
+		$result->invalidate( $tag, __( 'Email addresses you entered do not match.', WATTS_TEXT_DOMAIN ) );
 	}
 
 	return $result;
@@ -109,7 +109,7 @@ add_action( 'wpcf7_admin_init', 'watts_add_tag_generator_confirm_email', 16, 0 )
 
 function watts_add_tag_generator_confirm_email() {
 	$tag_generator = WPCF7_TagGenerator::get_instance();
-	$tag_generator->add( 'confirm-email', __( 'confirm email', 'watts' ),
+	$tag_generator->add( 'confirm-email', __( 'confirm email', WATTS_TEXT_DOMAIN ),
 		'watts_tag_generator_confirm_email' );
 }
 
@@ -117,7 +117,7 @@ function watts_tag_generator_confirm_email( $contact_form, $args = '' ) {
 	$args = wp_parse_args( $args, array() );
 	$type = 'confirm_email';
 
-	$description = __( "Generate a form-tag for a single-line confirm email address input field.", 'watts' );
+	$description = __( "Generate a form-tag for a single-line confirm email address input field.", WATTS_TEXT_DOMAIN );
 
 	?>
 	<div class="control-box">
@@ -127,13 +127,13 @@ function watts_tag_generator_confirm_email( $contact_form, $args = '' ) {
 			<table class="form-table">
 				<tbody>
 				<tr>
-					<th scope="row"><?php echo esc_html( __( 'Field type', 'watts' ) ); ?></th>
+					<th scope="row"><?php echo esc_html( __( 'Field type', WATTS_TEXT_DOMAIN ) ); ?></th>
 					<td>
 						<fieldset>
 							<legend
-								class="screen-reader-text"><?php echo esc_html( __( 'Field type', 'watts' ) ); ?></legend>
+								class="screen-reader-text"><?php echo esc_html( __( 'Field type', WATTS_TEXT_DOMAIN ) ); ?></legend>
 							<label><input type="checkbox"
-										  name="required"/> <?php echo esc_html( __( 'Required field', 'watts' ) ); ?>
+										  name="required"/> <?php echo esc_html( __( 'Required field', WATTS_TEXT_DOMAINk ) ); ?>
 							</label>
 						</fieldset>
 					</td>
@@ -141,7 +141,7 @@ function watts_tag_generator_confirm_email( $contact_form, $args = '' ) {
 
 				<tr>
 					<th scope="row"><label
-							for="<?php echo esc_attr( $args['content'] . '-name' ); ?>"><?php echo esc_html( __( 'Name', 'watts' ) ); ?></label>
+							for="<?php echo esc_attr( $args['content'] . '-name' ); ?>"><?php echo esc_html( __( 'Name', WATTS_TEXT_DOMAIN ) ); ?></label>
 					</th>
 					<td><input type="text" name="name" class="tg-name oneline"
 							   id="<?php echo esc_attr( $args['content'] . '-name' ); ?>"/></td>
@@ -149,7 +149,7 @@ function watts_tag_generator_confirm_email( $contact_form, $args = '' ) {
 
 				<tr>
 					<th scope="row"><label
-							for="<?php echo esc_attr( $args['content'] . '-target' ); ?>"><?php echo esc_html( __( 'Target name*', 'watts' ) ); ?></label>
+							for="<?php echo esc_attr( $args['content'] . '-target' ); ?>"><?php echo esc_html( __( 'Target name*', WATTS_TEXT_DOMAIN ) ); ?></label>
 					</th>
 					<td><input type="text" name="target" class="targetvalue oneline option"
 							   id="<?php echo esc_attr( $args['content'] . '-target' ); ?>"/></td>
@@ -157,7 +157,7 @@ function watts_tag_generator_confirm_email( $contact_form, $args = '' ) {
 
 				<tr>
 					<th scope="row"><label
-							for="<?php echo esc_attr( $args['content'] . '-values' ); ?>"><?php echo esc_html( __( 'Default value', 'watts' ) ); ?></label>
+							for="<?php echo esc_attr( $args['content'] . '-values' ); ?>"><?php echo esc_html( __( 'Default value', WATTS_TEXT_DOMAIN ) ); ?></label>
 					</th>
 					<td><input type="text" name="values" class="oneline"
 							   id="<?php echo esc_attr( $args['content'] . '-values' ); ?>"/><br/>
@@ -165,7 +165,7 @@ function watts_tag_generator_confirm_email( $contact_form, $args = '' ) {
 
 				<tr>
 					<th scope="row"><label
-							for="<?php echo esc_attr( $args['content'] . '-id' ); ?>"><?php echo esc_html( __( 'Id attribute', 'watts' ) ); ?></label>
+							for="<?php echo esc_attr( $args['content'] . '-id' ); ?>"><?php echo esc_html( __( 'Id attribute', WATTS_TEXT_DOMAIN ) ); ?></label>
 					</th>
 					<td><input type="text" name="id" class="idvalue oneline option"
 							   id="<?php echo esc_attr( $args['content'] . '-id' ); ?>"/></td>
@@ -173,7 +173,7 @@ function watts_tag_generator_confirm_email( $contact_form, $args = '' ) {
 
 				<tr>
 					<th scope="row"><label
-							for="<?php echo esc_attr( $args['content'] . '-class' ); ?>"><?php echo esc_html( __( 'Class attribute', 'watts' ) ); ?></label>
+							for="<?php echo esc_attr( $args['content'] . '-class' ); ?>"><?php echo esc_html( __( 'Class attribute', WATTS_TEXT_DOMAIN ) ); ?></label>
 					</th>
 					<td><input type="text" name="class" class="classvalue oneline option"
 							   id="<?php echo esc_attr( $args['content'] . '-class' ); ?>"/></td>
@@ -188,13 +188,13 @@ function watts_tag_generator_confirm_email( $contact_form, $args = '' ) {
 
 		<div class="submitbox">
 			<input type="button" class="button button-primary insert-tag"
-				   value="<?php echo esc_attr( __( 'Insert Tag', 'watts' ) ); ?>"/>
+				   value="<?php echo esc_attr( __( 'Insert Tag', WATTS_TEXT_DOMAIN ) ); ?>"/>
 		</div>
 
 		<br class="clear"/>
 
 		<p class="description mail-tag"><label
-				for="<?php echo esc_attr( $args['content'] . '-mailtag' ); ?>"><?php echo sprintf( esc_html( __( "To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.", 'watts' ) ), '<strong><span class="mail-tag"></span></strong>' ); ?>
+				for="<?php echo esc_attr( $args['content'] . '-mailtag' ); ?>"><?php echo sprintf( esc_html( __( "To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.", WATTS_TEXT_DOMAIN ) ), '<strong><span class="mail-tag"></span></strong>' ); ?>
 				<input type="text" class="mail-tag code hidden" readonly="readonly"
 					   id="<?php echo esc_attr( $args['content'] . '-mailtag' ); ?>"/></label></p>
 	</div>

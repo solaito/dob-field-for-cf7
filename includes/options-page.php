@@ -22,7 +22,7 @@ class Watts_Options_Page {
 	}
 
 	public function watts_settings_link( $links ) {
-		$link = "<a href='" . esc_url( add_query_arg( 'page', 'watts', get_admin_url() . 'options-general.php' ) ) . "'>" . __( 'Settings' ) . '</a>';
+		$link = "<a href='" . esc_url( add_query_arg( 'page', 'watts', get_admin_url() . 'options-general.php' ) ) . "'>" . __( 'Settings', WATTS_TEXT_DOMAIN ) . '</a>';
 		array_unshift( $links, $link );
 
 		return $links;
@@ -64,14 +64,14 @@ class Watts_Options_Page {
 
 		add_settings_section(
 			self::SECTIONS['VALIDATION'], // id
-			__( 'Real-time validation settings' ), // title
+			__( 'Real-time validation settings', WATTS_TEXT_DOMAIN ), // title
 			array( $this, 'watts_section_info' ), // callback
 			self::PAGE // page
 		);
 
 		add_settings_field(
 			self::IDS['REALTIME_VALIDATION_ENABLE'], // id
-			__( 'Validate the user\'s input real time' ), // title
+			__( 'Validate the user\'s input real time', WATTS_TEXT_DOMAIN ), // title
 			array( $this, 'display_checkbox_callback' ), // callback
 			self::PAGE, // page
 			self::SECTIONS['VALIDATION'], // section
@@ -80,7 +80,7 @@ class Watts_Options_Page {
 
 		add_settings_field(
 			self::IDS['VALIDATE_ICON_ENABLE'], // id
-			__( 'Displays an icon showing the validation result' ), // title
+			__( 'Displays an icon showing the validation result', WATTS_TEXT_DOMAIN ), // title
 			array( $this, 'display_checkbox_callback' ), // callback
 			self::PAGE, // page
 			self::SECTIONS['VALIDATION'], // section
@@ -89,26 +89,30 @@ class Watts_Options_Page {
 
 		add_settings_field(
 			self::IDS['VALIDATE_ICON_SIZE'], // id
-			__( 'Choose validation icon size' ), // title
+			__( 'Choose validation icon size', WATTS_TEXT_DOMAIN ), // title
 			array( $this, 'display_selectbox_callback' ), // callback
 			self::PAGE, // page
 			self::SECTIONS['VALIDATION'], // section
 			array(
 				self::IDS['VALIDATE_ICON_SIZE'],
-				array( 'small' => __( 'Small' ), 'medium' => __( 'Medium' ), 'large' => __( 'Large' ) )
+				array(
+					'small'  => __( 'Small', WATTS_TEXT_DOMAIN ),
+					'medium' => __( 'Medium', WATTS_TEXT_DOMAIN ),
+					'large'  => __( 'Large', WATTS_TEXT_DOMAIN )
+				)
 			) // args
 		);
 
 		add_settings_section(
 			self::SECTIONS['CHAR_WIDTH'], // id
-			__( 'Character width conversion settings' ), // title
+			__( 'Character width conversion settings', WATTS_TEXT_DOMAIN ), // title
 			array( $this, 'watts_section_info' ), // callback
 			self::PAGE // page
 		);
 
 		add_settings_field(
 			self::IDS['FULL_TO_HALF_ENABLE'], // id
-			__( 'Convert from Fullwidth to Halfwidth forms' ), // title
+			__( 'Convert from Fullwidth to Halfwidth forms', WATTS_TEXT_DOMAIN ), // title
 			array( $this, 'display_checkbox_callback' ), // callback
 			self::PAGE, // page
 			self::SECTIONS['CHAR_WIDTH'], // section
@@ -159,7 +163,7 @@ class Watts_Options_Page {
 			$id,
 			( isset( $option ) && $option === 'on' ) ? 'checked' : '',
 			$id,
-			__( 'On' )
+			__( 'On', WATTS_TEXT_DOMAIN )
 		);
 	}
 

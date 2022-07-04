@@ -14,6 +14,7 @@
 define( "WATTS_PLUGIN", __FILE__ );
 define( "WATTS_PLUGIN_BASENAME", plugin_basename( WATTS_PLUGIN ) );
 define( "WATTS_PLUGIN_DIR_URL", plugin_dir_url( WATTS_PLUGIN ) );
+const WATTS_TEXT_DOMAIN = 'watts';
 
 require_once 'includes/options-page.php';
 require_once 'includes/controller.php';
