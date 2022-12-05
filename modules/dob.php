@@ -171,11 +171,11 @@ function watts_posted_data_dob( $value, $value_orig, $tag ) {
 
 	$result = '';
 	if ( $format === 'DMY' ) {
-		$result = implode( [ $day, $month, $year ], $separator );
+		$result = implode( $separator, [ $day, $month, $year ] );
 	} elseif ( $format === 'MDY' ) {
-		$result = implode( [ $month, $day, $year ], $separator );
+		$result = implode( $separator, [ $month, $day, $year ] );
 	} else { // default
-		$result = implode( [ $year, $month, $day ], $separator );
+		$result = implode( $separator, [ $year, $month, $day ] );
 	}
 
 	return $result;
