@@ -82,7 +82,7 @@ function dob_field_for_cf7_form_tag_handler( $tag ) {
 	}
 
 	$html = sprintf(
-		'<span class="wpcf7-form-control-wrap %1$s">%2$s%3$s</span>',
+		'<span class="wpcf7-form-control-wrap" data-name="%1$s">%2$s%3$s</span>',
 		sanitize_html_class( $tag->name ), $html, $validation_error
 	);
 
