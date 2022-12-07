@@ -1,41 +1,27 @@
-=== Watts ===
-Contributors: solaito
-Donate link: https://wp-watts.com/
-Tags: form, contact form, efo, ajax
+=== DOB Field For CF7 ===
+Contributors: Tonica, LLC
+Donate link: https://tonica.llc/
+Tags: form, contact form, dob, date of birth, birthdate
 Requires at least: 5.7
-Tested up to: 5.9.3
+Tested up to: 6.1.1
 Requires PHP: 5.6
-Stable tag: 1.2.1
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-The Watts will performs EFO(Entry Form Optimization) for your Contact Form 7.
+Add a date of birth  input field to your Contact Form 7.
 
 == Description ==
 
-The Watts will performs EFO(Entry Form Optimization) for your Contact Form 7.
-
-This plugin provides the following featreus.
-
-Real-time validation using ajax (Excluding IE). Displays an icon indicating the validation result.
-
-Automatically converts Fullwidth Forms to Halfwidth Forms (CJK (Chinese, Japanese and Korean) only).
-
-* E-mail address
-* Telephone number
-
-Adding input fields.
-
-* Date of birth
-* Confirm e-mail address
+Add a date of birth  input field to your Contact Form 7.
 
 == Installation ==
 
 Please install contact form 7 in advance.
 
 1. From the WP admin panel, click “Plugins” -> “Add new”.
-1. In the browser input box, type “Watts”.
-1. Select the “Watts” plugin and click “Install”.
+1. In the browser input box, type “DOB Field For CF7”.
+1. Select the “DOB Field For CF7” plugin and click “Install”.
 1. Activate the plugin.
 
 OR…
@@ -52,30 +38,12 @@ I'm waiting for your questions.
 
 == Screenshots ==
 
-1. Real-time validation.
+1. DOB field.
+1. Edit Contact Form Page.
+1. Form-tag Generator: DOB.
+1. Error message.
 
 == Changelog ==
-
-= 1.2.1 =
-* Added settings page.
-
-= 1.2.0 =
-* Supports icon display showing validation results.
-
-= 1.1.3 =
-* Supports leading zero option for date of birth input field.
-
-= 1.1.2 =
-* Internationalization of date of birth input field.
-* Automatically converts Fullwidth Forms to Halfwidth Forms (CJK (Chinese, Japanese and Korean) only).
-
-= 1.1.1 =
-* Supports real-time validation of confirmation e-mail address input field.
-
-= 1.1.0 =
-* Add confirm e-mail address input field.
-* Translation support.
-* Fix readme.txt.
 
 = 1.0.0 =
 * First Release.

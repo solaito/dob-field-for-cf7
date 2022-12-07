@@ -1,11 +1,11 @@
 <?php
 
 if ( function_exists( 'wpcf7_add_form_tag' ) ) {
-	wpcf7_add_form_tag( 'dob', 'watts_dob_form_tag_handler', true );
-	wpcf7_add_form_tag( 'dob*', 'watts_dob_form_tag_handler', true );
+	wpcf7_add_form_tag( 'dob', 'dob_field_for_cf7_form_tag_handler', true );
+	wpcf7_add_form_tag( 'dob*', 'dob_field_for_cf7_form_tag_handler', true );
 }
 
-function watts_dob_form_tag_handler( $tag ) {
+function dob_field_for_cf7_form_tag_handler( $tag ) {
 	if ( empty( $tag->name ) ) {
 		return '';
 	}
@@ -67,9 +67,9 @@ function watts_dob_form_tag_handler( $tag ) {
 	$until_year   = $start_year - $max_lifespan;
 
 	$html_parts = [
-		'year'  => watts_dob_form_part( $tag, $atts, 'year', $default_value['year'], range( $start_year, $until_year ), esc_html( __( 'Year', 'watts' ) ) ),
-		'month' => watts_dob_form_part( $tag, $atts, 'month', $default_value['month'], range( 1, 12 ), esc_html( __( 'Month', 'watts' ) ) ),
-		'day'   => watts_dob_form_part( $tag, $atts, 'day', $default_value['day'], range( 1, 31 ), esc_html( __( 'Day', 'watts' ) ) )
+		'year'  => dob_field_for_cf7_form_part( $tag, $atts, 'year', $default_value['year'], range( $start_year, $until_year ), esc_html( __( 'Year', WATTS_TEXT_DOMAIN ) ) ),
+		'month' => dob_field_for_cf7_form_part( $tag, $atts, 'month', $default_value['month'], range( 1, 12 ), esc_html( __( 'Month', WATTS_TEXT_DOMAIN ) ) ),
+		'day'   => dob_field_for_cf7_form_part( $tag, $atts, 'day', $default_value['day'], range( 1, 31 ), esc_html( __( 'Day', WATTS_TEXT_DOMAIN ) ) )
 	];
 
 	$html = '';
@@ -82,14 +82,14 @@ function watts_dob_form_tag_handler( $tag ) {
 	}
 
 	$html = sprintf(
-		'<span class="wpcf7-form-control-wrap %1$s">%2$s%3$s</span>',
+		'<span class="wpcf7-form-control-wrap" data-name="%1$s">%2$s%3$s</span>',
 		sanitize_html_class( $tag->name ), $html, $validation_error
 	);
 
 	return $html;
 }
 
-function watts_dob_form_part( $tag, $atts, $name_key, $default_value, $values, $blank_item ) {
+function dob_field_for_cf7_form_part( $tag, $atts, $name_key, $default_value, $values, $blank_item ) {
 	$atts['name'] = sprintf( '%1$s[%2$s]', $tag->name, $name_key );
 	$atts['id']   .= '-' . $name_key;
 
@@ -137,10 +137,10 @@ function watts_dob_form_part( $tag, $atts, $name_key, $default_value, $values, $
 	return $html;
 }
 
-add_filter( 'wpcf7_posted_data_dob', 'watts_posted_data_dob', 10, 3 );
-add_filter( 'wpcf7_posted_data_dob*', 'watts_posted_data_dob', 10, 3 );
+add_filter( 'wpcf7_posted_data_dob', 'dob_field_for_cf7_posted_data_dob', 10, 3 );
+add_filter( 'wpcf7_posted_data_dob*', 'dob_field_for_cf7_posted_data_dob', 10, 3 );
 
-function watts_posted_data_dob( $value, $value_orig, $tag ) {
+function dob_field_for_cf7_posted_data_dob( $value, $value_orig, $tag ) {
 	if ( ! isset( $value_orig ) ||
 		 ! isset( $value_orig['year'] ) ||
 		 ! isset( $value_orig['month'] ) ||
@@ -171,20 +171,20 @@ function watts_posted_data_dob( $value, $value_orig, $tag ) {
 
 	$result = '';
 	if ( $format === 'DMY' ) {
-		$result = implode( [ $day, $month, $year ], $separator );
+		$result = implode( $separator, [ $day, $month, $year ] );
 	} elseif ( $format === 'MDY' ) {
-		$result = implode( [ $month, $day, $year ], $separator );
+		$result = implode( $separator, [ $month, $day, $year ] );
 	} else { // default
-		$result = implode( [ $year, $month, $day ], $separator );
+		$result = implode( $separator, [ $year, $month, $day ] );
 	}
 
 	return $result;
 }
 
-add_filter( 'wpcf7_validate_dob', 'watts_dob_validation_filter', 10, 2 );
-add_filter( 'wpcf7_validate_dob*', 'watts_dob_validation_filter', 10, 2 );
+add_filter( 'wpcf7_validate_dob', 'dob_field_for_cf7_validation_filter', 10, 2 );
+add_filter( 'wpcf7_validate_dob*', 'dob_field_for_cf7_validation_filter', 10, 2 );
 
-function watts_dob_validation_filter( $result, $tag ) {
+function dob_field_for_cf7_validation_filter( $result, $tag ) {
 	$name = $tag->name;
 
 	$values = [
@@ -214,25 +214,25 @@ function watts_dob_validation_filter( $result, $tag ) {
 		$result->invalidate( $tag, wpcf7_get_message( 'invalid_date' ) );
 	} else if ( ! checkdate( $values['month'], $values['day'], $values['year'] ) ) {
 		// 数値が入力されていた場合のチェック
-		$result->invalidate( $tag, __( 'The date specified is not a valid date value.', 'watts' ) );
+		$result->invalidate( $tag, __( 'The date specified is not a valid date value.', WATTS_TEXT_DOMAIN ) );
 	}
 
 	return $result;
 }
 
-add_action( 'wpcf7_admin_init', 'watts_add_tag_generator_dob', 20, 0 );
+add_action( 'wpcf7_admin_init', 'dob_field_for_cf7_add_tag_generator_dob', 20, 0 );
 
-function watts_add_tag_generator_dob() {
+function dob_field_for_cf7_add_tag_generator_dob() {
 	$tag_generator = WPCF7_TagGenerator::get_instance();
-	$tag_generator->add( 'dob', __( 'DOB', 'watts' ),
-		'watts_tag_generator_dob' );
+	$tag_generator->add( 'dob', __( 'DOB', WATTS_TEXT_DOMAIN ),
+		'dob_field_for_cf7_tag_generator_dob' );
 }
 
-function watts_tag_generator_dob( $contact_form, $args = '' ) {
+function dob_field_for_cf7_tag_generator_dob( $contact_form, $args = '' ) {
 	$args = wp_parse_args( $args, array() );
 	$type = 'dob';
 
-	$description = __( "Generate a form-tag for a date of birth input field.", 'watts' );
+	$description = __( "Generate a form-tag for a date of birth input field.", WATTS_TEXT_DOMAIN );
 
 	?>
 	<div class="control-box">
@@ -242,13 +242,13 @@ function watts_tag_generator_dob( $contact_form, $args = '' ) {
 			<table class="form-table">
 				<tbody>
 				<tr>
-					<th scope="row"><?php echo esc_html( __( 'Field type', 'watts' ) ); ?></th>
+					<th scope="row"><?php echo esc_html( __( 'Field type', WATTS_TEXT_DOMAIN ) ); ?></th>
 					<td>
 						<fieldset>
 							<legend
-								class="screen-reader-text"><?php echo esc_html( __( 'Field type', 'watts' ) ); ?></legend>
+								class="screen-reader-text"><?php echo esc_html( __( 'Field type', WATTS_TEXT_DOMAIN ) ); ?></legend>
 							<label><input type="checkbox"
-										  name="required"/> <?php echo esc_html( __( 'Required field', 'watts' ) ); ?>
+										  name="required"/> <?php echo esc_html( __( 'Required field', WATTS_TEXT_DOMAIN ) ); ?>
 							</label>
 						</fieldset>
 					</td>
@@ -256,7 +256,7 @@ function watts_tag_generator_dob( $contact_form, $args = '' ) {
 
 				<tr>
 					<th scope="row"><label
-							for="<?php echo esc_attr( $args['content'] . '-name' ); ?>"><?php echo esc_html( __( 'Name', 'watts' ) ); ?></label>
+							for="<?php echo esc_attr( $args['content'] . '-name' ); ?>"><?php echo esc_html( __( 'Name', WATTS_TEXT_DOMAIN ) ); ?></label>
 					</th>
 					<td><input type="text" name="name" class="tg-name oneline"
 							   id="<?php echo esc_attr( $args['content'] . '-name' ); ?>"/></td>
@@ -264,30 +264,30 @@ function watts_tag_generator_dob( $contact_form, $args = '' ) {
 
 				<tr>
 					<th scope="row"><label
-							for="<?php echo esc_attr( $args['content'] . '-values' ); ?>"><?php echo esc_html( __( 'Default value', 'watts' ) ); ?></label>
+							for="<?php echo esc_attr( $args['content'] . '-values' ); ?>"><?php echo esc_html( __( 'Default value', WATTS_TEXT_DOMAIN ) ); ?></label>
 					</th>
 					<td><input type="text" name="values" class="oneline"
 							   id="<?php echo esc_attr( $args['content'] . '-values' ); ?>"/><br/>
 				</tr>
 
 				<tr>
-					<th scope="row"><?php echo esc_html( __( 'Options', 'watts' ) ); ?></th>
+					<th scope="row"><?php echo esc_html( __( 'Options', WATTS_TEXT_DOMAIN ) ); ?></th>
 					<td>
 						<fieldset>
 							<legend
-								class="screen-reader-text"><?php echo esc_html( __( 'Options', 'watts' ) ); ?></legend>
+								class="screen-reader-text"><?php echo esc_html( __( 'Options', WATTS_TEXT_DOMAIN ) ); ?></legend>
 							<label><input type="checkbox" name="include_blank"
-										  class="option"/> <?php echo esc_html( __( 'Insert a blank item as the first option', 'watts' ) ); ?>
+										  class="option"/> <?php echo esc_html( __( 'Insert a blank item as the first option', WATTS_TEXT_DOMAIN ) ); ?>
 							</label>
 						</fieldset>
 					</td>
 				</tr>
 
 				<tr>
-					<th scope="row" rowspan="3"><?php echo esc_html( __( 'Date Format', 'watts' ) ); ?></th>
+					<th scope="row" rowspan="3"><?php echo esc_html( __( 'Date Format', WATTS_TEXT_DOMAIN ) ); ?></th>
 					<td>
 						<fieldset>
-							<legend><?php echo esc_html( __( 'Date Style', 'watts' ) ); ?></legend>
+							<legend><?php echo esc_html( __( 'Date Style', WATTS_TEXT_DOMAIN ) ); ?></legend>
 							<input type="radio" name="format" class="formatvalue option"
 								   id="<?php echo esc_attr( $args['content'] . '-format-ymd' ); ?>" value="YMD" checked>
 							<label for="<?php echo esc_attr( $args['content'] . '-format-ymd' ); ?>">YMD</label>
@@ -303,29 +303,29 @@ function watts_tag_generator_dob( $contact_form, $args = '' ) {
 				<tr>
 					<td>
 						<fieldset>
-							<legend><?php echo esc_html( __( 'Date Separator', 'watts' ) ); ?></legend>
+							<legend><?php echo esc_html( __( 'Date Separator', WATTS_TEXT_DOMAIN ) ); ?></legend>
 							<input type="radio" name="separator" class="separatorvalue option"
 								   id="<?php echo esc_attr( $args['content'] . '-separator-slash' ); ?>" value="slash"
 								   checked>
 							<label
-								for="<?php echo esc_attr( $args['content'] . '-separator-slash' ); ?>"><?php echo esc_html( __( 'slash', 'watts' ) ); ?></label>
+								for="<?php echo esc_attr( $args['content'] . '-separator-slash' ); ?>"><?php echo esc_html( __( 'slash', WATTS_TEXT_DOMAIN ) ); ?></label>
 							<input type="radio" name="separator" class="separatorvalue option"
 								   id="<?php echo esc_attr( $args['content'] . '-separator-dash' ); ?>" value="dash">
 							<label
-								for="<?php echo esc_attr( $args['content'] . '-separator-dash' ); ?>"><?php echo esc_html( __( 'dash', 'watts' ) ); ?></label>
+								for="<?php echo esc_attr( $args['content'] . '-separator-dash' ); ?>"><?php echo esc_html( __( 'dash', WATTS_TEXT_DOMAIN ) ); ?></label>
 							<input type="radio" name="separator" class="separatorvalue option"
 								   id="<?php echo esc_attr( $args['content'] . '-separator-period' ); ?>"
 								   value="period">
 							<label
-								for="<?php echo esc_attr( $args['content'] . '-separator-period' ); ?>"><?php echo esc_html( __( 'period', 'watts' ) ); ?></label>
+								for="<?php echo esc_attr( $args['content'] . '-separator-period' ); ?>"><?php echo esc_html( __( 'period', WATTS_TEXT_DOMAIN ) ); ?></label>
 							<input type="radio" name="separator" class="separatorvalue option"
 								   id="<?php echo esc_attr( $args['content'] . '-separator-comma' ); ?>" value="comma">
 							<label
-								for="<?php echo esc_attr( $args['content'] . '-separator-comma' ); ?>"><?php echo esc_html( __( 'comma', 'watts' ) ); ?></label>
+								for="<?php echo esc_attr( $args['content'] . '-separator-comma' ); ?>"><?php echo esc_html( __( 'comma', WATTS_TEXT_DOMAIN ) ); ?></label>
 							<input type="radio" name="separator" class="separatorvalue option"
 								   id="<?php echo esc_attr( $args['content'] . '-separator-blank' ); ?>" value="blank">
 							<label
-								for="<?php echo esc_attr( $args['content'] . '-separator-blank' ); ?>"><?php echo esc_html( __( 'blank', 'watts' ) ); ?></label>
+								for="<?php echo esc_attr( $args['content'] . '-separator-blank' ); ?>"><?php echo esc_html( __( 'blank', WATTS_TEXT_DOMAIN ) ); ?></label>
 						</fieldset>
 					</td>
 				</tr>
@@ -333,9 +333,9 @@ function watts_tag_generator_dob( $contact_form, $args = '' ) {
 				<tr>
 					<td>
 						<fieldset>
-							<legend><?php echo esc_html( __( 'Display Leading Zero', 'watts' ) ); ?></legend>
+							<legend><?php echo esc_html( __( 'Display Leading Zero', WATTS_TEXT_DOMAIN ) ); ?></legend>
 							<label><input type="checkbox" name="leading_zero"
-										  class="option"/> <?php echo esc_html( __( 'Indicates whether to display (or suppress) leading zeros.', 'watts' ) ); ?>
+										  class="option"/> <?php echo esc_html( __( 'Indicates whether to display (or suppress) leading zeros.', WATTS_TEXT_DOMAIN ) ); ?>
 							</label>
 						</fieldset>
 					</td>
@@ -343,7 +343,7 @@ function watts_tag_generator_dob( $contact_form, $args = '' ) {
 
 				<tr>
 					<th scope="row"><label
-							for="<?php echo esc_attr( $args['content'] . '-id' ); ?>"><?php echo esc_html( __( 'Id attribute', 'watts' ) ); ?></label>
+							for="<?php echo esc_attr( $args['content'] . '-id' ); ?>"><?php echo esc_html( __( 'Id attribute', WATTS_TEXT_DOMAIN ) ); ?></label>
 					</th>
 					<td><input type="text" name="id" class="idvalue oneline option"
 							   id="<?php echo esc_attr( $args['content'] . '-id' ); ?>"/></td>
@@ -351,7 +351,7 @@ function watts_tag_generator_dob( $contact_form, $args = '' ) {
 
 				<tr>
 					<th scope="row"><label
-							for="<?php echo esc_attr( $args['content'] . '-class' ); ?>"><?php echo esc_html( __( 'Class attribute', 'watts' ) ); ?></label>
+							for="<?php echo esc_attr( $args['content'] . '-class' ); ?>"><?php echo esc_html( __( 'Class attribute', WATTS_TEXT_DOMAIN ) ); ?></label>
 					</th>
 					<td><input type="text" name="class" class="classvalue oneline option"
 							   id="<?php echo esc_attr( $args['content'] . '-class' ); ?>"/></td>
@@ -366,13 +366,13 @@ function watts_tag_generator_dob( $contact_form, $args = '' ) {
 
 		<div class="submitbox">
 			<input type="button" class="button button-primary insert-tag"
-				   value="<?php echo esc_attr( __( 'Insert Tag', 'watts' ) ); ?>"/>
+				   value="<?php echo esc_attr( __( 'Insert Tag', WATTS_TEXT_DOMAIN ) ); ?>"/>
 		</div>
 
 		<br class="clear"/>
 
 		<p class="description mail-tag"><label
-				for="<?php echo esc_attr( $args['content'] . '-mailtag' ); ?>"><?php echo sprintf( esc_html( __( "To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.", 'watts' ) ), '<strong><span class="mail-tag"></span></strong>' ); ?>
+				for="<?php echo esc_attr( $args['content'] . '-mailtag' ); ?>"><?php echo sprintf( esc_html( __( "To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.", WATTS_TEXT_DOMAIN ) ), '<strong><span class="mail-tag"></span></strong>' ); ?>
 				<input type="text" class="mail-tag code hidden" readonly="readonly"
 					   id="<?php echo esc_attr( $args['content'] . '-mailtag' ); ?>"/></label></p>
 	</div>
