@@ -41,6 +41,7 @@ I'm waiting for your questions.
 1. DOB field.
 1. Edit Contact Form Page.
 1. Form-tag Generator: DOB.
+1. Error message.
 
 == Changelog ==
 
