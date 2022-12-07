@@ -1,11 +1,11 @@
 <?php
 
 if ( function_exists( 'wpcf7_add_form_tag' ) ) {
-	wpcf7_add_form_tag( 'dob', 'watts_dob_form_tag_handler', true );
-	wpcf7_add_form_tag( 'dob*', 'watts_dob_form_tag_handler', true );
+	wpcf7_add_form_tag( 'dob', 'dob_field_for_cf7_form_tag_handler', true );
+	wpcf7_add_form_tag( 'dob*', 'dob_field_for_cf7_form_tag_handler', true );
 }
 
-function watts_dob_form_tag_handler( $tag ) {
+function dob_field_for_cf7_form_tag_handler( $tag ) {
 	if ( empty( $tag->name ) ) {
 		return '';
 	}
@@ -67,9 +67,9 @@ function watts_dob_form_tag_handler( $tag ) {
 	$until_year   = $start_year - $max_lifespan;
 
 	$html_parts = [
-		'year'  => watts_dob_form_part( $tag, $atts, 'year', $default_value['year'], range( $start_year, $until_year ), esc_html( __( 'Year', WATTS_TEXT_DOMAIN ) ) ),
-		'month' => watts_dob_form_part( $tag, $atts, 'month', $default_value['month'], range( 1, 12 ), esc_html( __( 'Month', WATTS_TEXT_DOMAIN ) ) ),
-		'day'   => watts_dob_form_part( $tag, $atts, 'day', $default_value['day'], range( 1, 31 ), esc_html( __( 'Day', WATTS_TEXT_DOMAIN ) ) )
+		'year'  => dob_field_for_cf7_form_part( $tag, $atts, 'year', $default_value['year'], range( $start_year, $until_year ), esc_html( __( 'Year', WATTS_TEXT_DOMAIN ) ) ),
+		'month' => dob_field_for_cf7_form_part( $tag, $atts, 'month', $default_value['month'], range( 1, 12 ), esc_html( __( 'Month', WATTS_TEXT_DOMAIN ) ) ),
+		'day'   => dob_field_for_cf7_form_part( $tag, $atts, 'day', $default_value['day'], range( 1, 31 ), esc_html( __( 'Day', WATTS_TEXT_DOMAIN ) ) )
 	];
 
 	$html = '';
@@ -89,7 +89,7 @@ function watts_dob_form_tag_handler( $tag ) {
 	return $html;
 }
 
-function watts_dob_form_part( $tag, $atts, $name_key, $default_value, $values, $blank_item ) {
+function dob_field_for_cf7_form_part( $tag, $atts, $name_key, $default_value, $values, $blank_item ) {
 	$atts['name'] = sprintf( '%1$s[%2$s]', $tag->name, $name_key );
 	$atts['id']   .= '-' . $name_key;
 
@@ -137,10 +137,10 @@ function watts_dob_form_part( $tag, $atts, $name_key, $default_value, $values, $
 	return $html;
 }
 
-add_filter( 'wpcf7_posted_data_dob', 'watts_posted_data_dob', 10, 3 );
-add_filter( 'wpcf7_posted_data_dob*', 'watts_posted_data_dob', 10, 3 );
+add_filter( 'wpcf7_posted_data_dob', 'dob_field_for_cf7_posted_data_dob', 10, 3 );
+add_filter( 'wpcf7_posted_data_dob*', 'dob_field_for_cf7_posted_data_dob', 10, 3 );
 
-function watts_posted_data_dob( $value, $value_orig, $tag ) {
+function dob_field_for_cf7_posted_data_dob( $value, $value_orig, $tag ) {
 	if ( ! isset( $value_orig ) ||
 		 ! isset( $value_orig['year'] ) ||
 		 ! isset( $value_orig['month'] ) ||
@@ -181,10 +181,10 @@ function watts_posted_data_dob( $value, $value_orig, $tag ) {
 	return $result;
 }
 
-add_filter( 'wpcf7_validate_dob', 'watts_dob_validation_filter', 10, 2 );
-add_filter( 'wpcf7_validate_dob*', 'watts_dob_validation_filter', 10, 2 );
+add_filter( 'wpcf7_validate_dob', 'dob_field_for_cf7_validation_filter', 10, 2 );
+add_filter( 'wpcf7_validate_dob*', 'dob_field_for_cf7_validation_filter', 10, 2 );
 
-function watts_dob_validation_filter( $result, $tag ) {
+function dob_field_for_cf7_validation_filter( $result, $tag ) {
 	$name = $tag->name;
 
 	$values = [
@@ -220,15 +220,15 @@ function watts_dob_validation_filter( $result, $tag ) {
 	return $result;
 }
 
-add_action( 'wpcf7_admin_init', 'watts_add_tag_generator_dob', 20, 0 );
+add_action( 'wpcf7_admin_init', 'dob_field_for_cf7_add_tag_generator_dob', 20, 0 );
 
-function watts_add_tag_generator_dob() {
+function dob_field_for_cf7_add_tag_generator_dob() {
 	$tag_generator = WPCF7_TagGenerator::get_instance();
 	$tag_generator->add( 'dob', __( 'DOB', WATTS_TEXT_DOMAIN ),
-		'watts_tag_generator_dob' );
+		'dob_field_for_cf7_tag_generator_dob' );
 }
 
-function watts_tag_generator_dob( $contact_form, $args = '' ) {
+function dob_field_for_cf7_tag_generator_dob( $contact_form, $args = '' ) {
 	$args = wp_parse_args( $args, array() );
 	$type = 'dob';
 
