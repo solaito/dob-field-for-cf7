@@ -5,7 +5,7 @@ Tags: form, contact form, dob, date of birth, birthdate
 Requires at least: 5.7
 Tested up to: 6.1.1
 Requires PHP: 5.6
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,12 @@ I'm waiting for your questions.
 1. Error message.
 
 == Changelog ==
+
+= 1.0.2 =
+* Fix Text Domain.
+
+= 1.0.1 =
+* Fix Contributors.
 
 = 1.0.0 =
 * First Release.
