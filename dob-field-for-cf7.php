@@ -6,7 +6,7 @@
  * Author:          Tonica, LLC.
  * Author URI:      https://tonica.llc/
  * Text Domain:     dob-field-for-cf7
- * Version:         1.0.0
+ * Version:         1.0.2
  */
 
 const DOB_FIELD_FOR_CF7_TEXT_DOMAIN = 'dob-field-for-cf7';
