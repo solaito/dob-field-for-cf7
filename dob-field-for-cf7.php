@@ -9,6 +9,6 @@
  * Version:         1.0.0
  */
 
-const WATTS_TEXT_DOMAIN = 'dob-field-for-cf7';
+const DOB_FIELD_FOR_CF7_TEXT_DOMAIN = 'dob-field-for-cf7';
 
 require_once "modules/dob.php";
